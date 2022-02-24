@@ -4,12 +4,19 @@ Team 27
 
 **Topic 1: Customizable Swiping software / AllPurposeSwipeConnector**
 
-Introduction: For new students of any particular university it is mandatory to connect with their colleagues for various purposes like finding roommates, finding project partners, finding a proper hiking group, and much more. We propose a generic swiping system same as tinder but which can be configured by an admin user to suit dynamic requirements for peculiar scenarios in an organization. Users can choose to connect with people for the various tasks as per their requirements
+**Topic 1: FindYourTechStar**
 
-Abstract: At the core, we will be providing a generic platform that can be used to create multiple domains which can be used to connect people. We will be sorting and showing relevant and matching to a particular user's interests. Each domain will have different attribute values required to create its profile. These attributes will be configurable fields that will be used by admin users. 
-The application can work in two types of domains : 
-Generic Domains: Where people can meet other people if both users swipe each other's profile and get matched
-Employer Domains: Employers will be admin users and will create domains and define attributes. All the users who are creating profiles will only be shown to employer users of the system. Here the match will occur between an employer user and an employee user.
+Introduction: We as an individual struggle to find teammates for our project. For example, you’re a web developer and want to find a backend person to collaborate and vice-versa. It is difficult to find colleague even with popular sites around like: LinkedIn, HackerRank, etc.
+
+Abstract: At the core, we will be providing a portal on the similar lines as of tinder but for techies only. On this portal the profile will be focused on technology (skills, tech stack, Github contribution graph, etc.). A registered user will create his/her profile which will be sort of a mini resume providing their professional details. The users will then fill their preferences that they are looking in a teammate such as: tech stack, skills, years of experience, etc.
+We will be sorting and showing relevant and matching profile to a particular user's interests. Each user can then swipe the interested profile and only when both the users swipe each other they will be able to connect and chat.
+
+We can integrate this portal with Leetcode, HackRank, GitHub for the users to check each other’s profile.
+
+#Future Scope :
+The application can work in two types of domains:
+1. Technology Domains: Where techies can connect with each other if both users swipe each other's profile and get matched.
+2. General Domains: We can extend this portal may be later to have other use cases as well apart from teammate finder for a project. Such as for finding roommates, hiking groups, etc. Here user will have ability to create a new domain to find people within that domain.
 
 Approach:Webapp using React for frontend, node/java for backend.
 
