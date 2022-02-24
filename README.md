@@ -2,8 +2,6 @@
 272 Project Ideas
 Team 27
 
-**Topic 1: Customizable Swiping software / AllPurposeSwipeConnector**
-
 **Topic 1: FindYourTechStar**
 
 Introduction: We as an individual struggle to find teammates for our project. For example, you’re a web developer and want to find a backend person to collaborate and vice-versa. It is difficult to find colleague even with popular sites around like: LinkedIn, HackerRank, etc.
