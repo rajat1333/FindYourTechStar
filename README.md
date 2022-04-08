@@ -12,6 +12,6 @@ The application can work in two types of domains:
 1. Technology Domains: Where techies can connect with each other if both users swipe each other's profile and get matched.
 2. General Domains: We can extend this portal may be later to have other use cases as well apart from teammate finder for a project. Such as for finding roommates, hiking groups, etc. Here user will have ability to create a new domain to find people within that domain.
 
-Approach:Webapp using React for frontend, node/java for backend.
+Approach:Webapp using React for frontend, node/java for backend .
 
 Persona: Students, Teachers, Employers
