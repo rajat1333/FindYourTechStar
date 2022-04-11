@@ -1,0 +1,7 @@
+{
+    "development": {
+      "database_conn": "mongodb+srv://"
+    }
+
+ }
+  
