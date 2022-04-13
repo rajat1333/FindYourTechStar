@@ -8,7 +8,7 @@ const cors = require('cors');
 const {getAuthMiddleware, getAccessMiddleware} = require('u-server-utils');
 const validate = require('./util/authValidator')
 
-const authRoutes = require('./routes/auth.routes');
+// const authRoutes = require('./routes/auth.routes');
 
 
 const app = express();
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 });
 
 const validationMid = getAuthMiddleware(validate);
-app.use('/auth', authRoutes);
+// app.use('/auth', authRoutes);
 
 
 

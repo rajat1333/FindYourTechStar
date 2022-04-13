@@ -1,6 +1,6 @@
 {
     "development": {
-      "database_conn": "mongodb+srv://"
+      "database_conn": "mongodb+srv://techStaradmin:techStarpass@cluster0.9ixy6.mongodb.net/techStar?retryWrites=true&w=majority"
     }
 
  }
