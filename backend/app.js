@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/order */
 const cookieParser = require('cookie-parser');
@@ -5,19 +6,19 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const {getAuthMiddleware, getAccessMiddleware} = require('u-server-utils');
-const validate = require('./util/authValidator')
+const { getAuthMiddleware, getAccessMiddleware } = require('u-server-utils');
+const validate = require('./util/authValidator');
 
-// const authRoutes = require('./routes/auth.routes');
-
+//  Importing routes
+const matchRoute = require('./src/routes/matchRoute');
 
 const app = express();
-
 
 // all middlewaress
 app.use(logger('dev'));
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(cors());
 // app.use(cors({ origin: '*', credentials: true }));
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -30,8 +31,8 @@ app.use((req, res, next) => {
 });
 
 const validationMid = getAuthMiddleware(validate);
-// app.use('/auth', authRoutes);
 
-
+//  API Endpoints
+app.use('/matches', matchRoute);
 
 module.exports = app;

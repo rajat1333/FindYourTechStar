@@ -1,7 +1,13 @@
 {
     "development": {
-      "database_conn": "mongodb+srv://techStaradmin:techStarpass@cluster0.9ixy6.mongodb.net/techStar?retryWrites=true&w=majority"
+      "database_conn": "mongodb+srv://techStaradmin:techStarpass@cluster0.9ixy6.mongodb.net/techStar?retryWrites=true&w=majority",
+      "options":{
+        "useNewUrlParser": true,
+        "useUnifiedTopology": true,
+        "maxPoolSize": 500
+        }
     }
+
 
  }
   
