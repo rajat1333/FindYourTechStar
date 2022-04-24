@@ -5,7 +5,8 @@
         "useNewUrlParser": true,
         "useUnifiedTopology": true,
         "maxPoolSize": 500
-        }
+        },
+        "secret": "cmpe273_secret_key"
     }
 
 

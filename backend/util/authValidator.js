@@ -4,12 +4,12 @@ const { User } = require('../model');
 const JWT_SECRET = 'myetsysuperdupersecret';
 
 const validate = async (token) => {
-    var decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, JWT_SECRET);
 
     const userId = decoded.id;
-    console.log(decoded)
+    console.log(decoded);
 
-    const user = await User.findOne({  _id: userId  });
+    const user = await User.findOne({ _id: userId });
     if (!user) {
         return false;
     }

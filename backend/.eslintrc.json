@@ -1,7 +1,11 @@
 {
     "extends": "airbnb",
     "rules": {
-      "no-console": "off"
+      "no-console": "off",
+      "linebreak-style" : "off",
+      "object-curly-spacing" : "off",
+      "no-unused-vars" : "off",
+      "indent" : "off"
     }
   }
   

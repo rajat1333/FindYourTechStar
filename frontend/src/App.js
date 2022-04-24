@@ -5,6 +5,7 @@ import './App.css';
 import NavigationBar from "./Components/NavigationBar";
 import Chats from "./Components/Chats";
 import ChatScreen from "./Components/ChatScreen";
+import LandingPage from "./Components/LandingPage/LandingPage";
 
 function App() {
   return (
@@ -25,7 +26,9 @@ function App() {
           <Route path="/"
             element={<><NavigationBar />
               <h1>Put HomePage Component here</h1></>} />
+          <Route path="/home" element={<LandingPage />} />
         </Routes>
+        
       </Router>
       {/* NavigationBar*/}
       {/* User Cards with React Tinder Card*/}
