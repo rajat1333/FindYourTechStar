@@ -6,11 +6,14 @@ import ChatScreen from "./Components/ChatScreen";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import SwipePage from "./Components/SwipePage";
 import ProfileCard from "./Components/ProfileCard";
+import FindYourTechStar from "./pages/FindYourTechStar";
+import NavBar from "./Components/NavBar";
 
 function App() {
   return (
     <div className="App">
       <Router>
+        {<NavBar/>}
         <Routes>
           <Route
             path="/chats/:name"
@@ -51,6 +54,8 @@ function App() {
           <Route path="/home" element={<LandingPage />} />
           <Route path="/swipe" element={<ProfileCard />} />
           <Route path="/filter" element={<SwipePage />} />
+          <Route exact path="/findyourtechstar" element={<FindYourTechStar/>} />
+
         </Routes>
       </Router>
       {/* NavigationBar*/}

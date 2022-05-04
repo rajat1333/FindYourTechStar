@@ -28,9 +28,9 @@ const NavBar = () => {
 
             </div> */}
             <div>
-            {(loggedin &&  <Button size="large" startIcon={<AccountCircleIcon />}/>)}
-            {(loggedin &&  <Button size="large" startIcon={<PeopleOutlineIcon />}/>)}
-            {(loggedin &&  <Button size="large" startIcon={<ForumIcon />}/>)}
+            {(loggedin &&  <Button size="large" startIcon={<AccountCircleIcon />} component = {Link} to="/profile"/>)}
+            {(loggedin &&  <Button size="large" startIcon={<PeopleOutlineIcon />} component = {Link} to="/matches"/>)}
+            {(loggedin &&  <Button size="large" startIcon={<ForumIcon />}component = {Link} to="/chats"/>)}
             {(!loggedin && <Button variant="contained" className='login-button' component = {Link} to="/login">Log in</Button>)}
             {(loggedin && <Button variant="contained" className='login-button' component = {Link} to="/findyourtechstar">Log Out</Button>)}
             </div>
