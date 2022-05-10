@@ -1,13 +1,29 @@
 import ChatIcon from '@mui/icons-material/Chat';
 import PersonIcon from '@mui/icons-material/Person';
 import IconButton from '@mui/material/IconButton';
-import React from 'react';
+import React, { useState } from "react";
+
 import { Link, useNavigate } from 'react-router-dom';
 import '../CSS/NavigationBar.css';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const NavigationBar = ({ backButton, forwardButton }) => {
+    const [openModal, setOpenModal] = useState(false);
+    const [search, setSearch] = useState();
+
+    const handleLogin = () => {
+    console.log("inside login function");
+    setOpenModal(true);
+    //localStorage.clear();
+    //window.open("/login", "_self");
+};
+    const handleLogOut = () => {
+        console.log("inside logut function");
+        localStorage.clear();
+    window.open("/home", "_self");
+};
+
     const navigate = useNavigate();
     return (
         <div className='navigationbar'>

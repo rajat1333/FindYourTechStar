@@ -135,7 +135,7 @@ function SignUp() {
 
   return (
     <Container>
-      <LandingNavBar />
+      {/* <LandingNavBar /> */}
       <div className="container bootstrap snippets bootdey">
         <br />
         <Typography component="h1" variant="h5">
