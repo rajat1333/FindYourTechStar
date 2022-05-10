@@ -11,8 +11,10 @@ const login = (req, res) => {
   console.log('Inside Login Post Request');
   console.log('Req Body : ', req.body);
 
-  Users.findOne({ email_id: req.body.emailId,
-   password: req.body.password }, (error, mongoUser) => {
+  Users.findOne({
+email_id: req.body.emailId,
+   password: req.body.password,
+}, (error, mongoUser) => {
     console.log(`users find ${mongoUser}`);
     console.log(`Error is ${error}`);
     if (error) {
