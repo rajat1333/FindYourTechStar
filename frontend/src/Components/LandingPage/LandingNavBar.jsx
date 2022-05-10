@@ -2,15 +2,25 @@ import "bootstrap/dist/css/bootstrap.css";
 import React, { useState } from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { Navigate, useNavigate } from "react-router-dom";
+import Login from "../Login/Login";
+import LoginModal from "./LoginModal";
 
 function LandingNavBar(props) {
+  const [openModal, setOpenModal] = useState(false);
   const [search, setSearch] = useState();
+  
   const navigate = useNavigate();
 
-  const handleLogout = () => {
+  const handleLogin = () => {
+    console.log("inside login function");
+    setOpenModal(true);
+    //localStorage.clear();
+    //window.open("/login", "_self");
+  };
+  const handleLogOut = () => {
     console.log("inside logut function");
     localStorage.clear();
-    window.open("/login", "_self");
+    window.open("/home", "_self");
   };
   //handle logout to destroy the cookie
   const handleSearchChange = (e) => {
@@ -24,23 +34,15 @@ function LandingNavBar(props) {
 
   //if Cookie is set render Logout Button
   let navLogin = null;
-  if (localStorage.getItem("token")) {
+  if (localStorage.getItem('token')) {
     console.log("Able to read token");
     navLogin = (
       <div>
         <ul className="nav navbar-nav navbar-right">
           <li>
-            <Nav.Link href="/login" onClick={handleLogout}>
+            <Nav.Link onClick={handleLogOut}>
               {" "}
-              SignUp
-            </Nav.Link>
-          </li>
-        </ul>
-        <ul className="nav navbar-nav navbar-right">
-          <li>
-            <Nav.Link href="/login" onClick={handleLogout}>
-              {" "}
-              Login
+              Log Out
             </Nav.Link>
           </li>
         </ul>
@@ -52,43 +54,30 @@ function LandingNavBar(props) {
     console.log("User session not established");
     navLogin = (
       <ul className="nav navbar-nav navbar-right">
-        <li>
-          <span className="glyphicon glyphicon-log-in"></span> Login
-        </li>
-      </ul>
+          <li>
+            <Nav.Link onClick={handleLogin}>
+              {" "}
+              Login
+            </Nav.Link>
+          </li>
+        </ul>
     );
   }
 
   let redirectVar = null;
   if (!localStorage.getItem("token")) {
-    redirectVar = <Navigate to="/login" />;
+    //redirectVar = <Navigate to="/login" />;
   }
 
   let navBarVariable = null;
 
-  if (localStorage.getItem("token")) {
+  if (true) {
     navBarVariable = (
       <Navbar bg="light" expand="lg">
         <Container>
           <Navbar.Brand href="/home">FindYourTechStar</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            {/* <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-                onChange={handleSearchChange}
-              ></input>
-              <button
-                className="btn btn-outline-success"
-                type="submit"
-                onClick={handleSearch}
-              >
-                Search
-              </button>
-            </form> */}
             <Nav className="me-auto">
               <Nav.Link href="/favourites">Description</Nav.Link>
               <Nav.Link href="/userProfile">Contributors</Nav.Link>
@@ -97,6 +86,9 @@ function LandingNavBar(props) {
               <Nav.Link href="/shopUserAvailablity">Support</Nav.Link>
             </Nav>
           </Navbar.Collapse>
+          
+
+          {openModal && <Login closeModal={setOpenModal}  />}
           {navLogin}
         </Container>
       </Navbar>

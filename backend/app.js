@@ -11,6 +11,8 @@ const validate = require('./util/authValidator');
 
 //  Importing routes
 const matchRoute = require('./src/routes/matchRoute');
+const signUpRoute = require('./src/routes/signUpRoute');
+const loginRoute = require('./src/routes/loginRoute');
 
 const app = express();
 
@@ -34,5 +36,7 @@ const validationMid = getAuthMiddleware(validate);
 
 //  API Endpoints
 app.use('/matches', matchRoute);
+app.use('/signUp', signUpRoute);
+app.use('/login', loginRoute);
 
 module.exports = app;

@@ -1,18 +1,18 @@
 const jwt = require('jsonwebtoken');
 const constants = require('../../constants.json');
-
-const {secret} = global.gConfig;
+const Users = require('../models/UserModel');
 const { auth } = require('../../passport');
 
+const {secret} = global.gConfig;
+
 auth();
-const Users = require('../models/UserModel');
 
 const login = (req, res) => {
   console.log('Inside Login Post Request');
   console.log('Req Body : ', req.body);
-  const msg = {};
-  msg.body = req.body;
-  Users.findOne({ email_id: msg.body.emailId, password: msg.body.password }, (error, mongoUser) => {
+
+  Users.findOne({ email_id: req.body.emailId,
+   password: req.body.password }, (error, mongoUser) => {
     console.log(`users find ${mongoUser}`);
     console.log(`Error is ${error}`);
     if (error) {

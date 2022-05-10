@@ -6,6 +6,7 @@ import NavigationBar from "./Components/NavigationBar";
 import Chats from "./Components/Chats";
 import ChatScreen from "./Components/ChatScreen";
 import LandingPage from "./Components/LandingPage/LandingPage";
+import SignUp from "./Components/SignUp/SignUp";
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
             element={<><NavigationBar />
               <h1>Put HomePage Component here</h1></>} />
           <Route path="/home" element={<LandingPage />} />
+
+          <Route path="/signUp" element={<SignUp />} />
+          
         </Routes>
         
       </Router>

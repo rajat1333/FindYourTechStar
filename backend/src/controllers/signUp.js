@@ -2,15 +2,30 @@ const constants = require('../../constants.json');
 const Users = require('../models/UserModel');
 
 const signUp = (req, res) => {
+  console.log('Inside Sign Up Post Request');
+
   const inputUser = new Users({
-    user_name: req.body.username,
+    userId: req.body.userId,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    emailId: req.body.emailId,
     password: req.body.password,
-    email_id: req.body.emailId,
+    phoneNo: req.body.phoneNo,
+    dateOfBirth: req.body.dateOfBirth,
+    age: req.body.age,
+    qualification: req.body.qualification,
+    governmentId: req.body.governmentId,
+    githubUsername: req.body.githubUsername,
+    yearsOfExperience: req.body.yearsOfExperience,
+    techStack: req.body.techStack,
+    image: req.body.image,
+    city: req.body.city,
+    country: req.body.country,
   });
   console.log('Inside Sign Up Post Request');
   console.log('inputUser : ', inputUser);
 
-  Users.findOne(inputUser, (error, mongoUser) => {
+  Users.findOne({emailId: req.body.emailId}, (error, mongoUser) => {
     console.log(`users find ${mongoUser}`);
     console.log(`Error is ${error}`);
     if (error) {
