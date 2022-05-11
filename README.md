@@ -16,3 +16,17 @@ The application can work in two types of domains:
 Approach:Webapp using React for frontend, node/java for backend and mongoDB database.
 
 Persona: Developer
+
+# Steps to run the application:
+1. Install Docker in the system
+2. Git Clone Repository
+3. cd backend/ npm install
+4. cd frontend/ npm install
+5. cd ../
+6. sudo docker-compose up
+
+
+System Architecture:
+
+![Techstar (1)](https://user-images.githubusercontent.com/91869107/167945933-e8e95083-1400-4699-a42d-60cce695a7f8.png)
+
