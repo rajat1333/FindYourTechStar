@@ -3,7 +3,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import IconButton from '@mui/material/IconButton';
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import '../CSS/NavigationBar.css';
+import './CSS/NavigationBar.css';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 

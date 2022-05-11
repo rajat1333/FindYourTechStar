@@ -18,12 +18,14 @@ exports.createMatch = (req, res) => {
 
 exports.getMatchesByUserId = (req, res) => {
   const { userId } = req.params;
+  console.log("userId:", userId);
   Matches.find(
     { $or: [{ user1Id: userId }, { user2Id: userId }] },
     (err, data) => {
       if (err) {
         res.status(500).send(err);
       } else {
+        console.log("result:", data)
         res.status(200).send(data);
       }
     }

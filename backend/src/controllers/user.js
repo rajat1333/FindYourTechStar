@@ -2,7 +2,7 @@
 const constants = require("../../constants.json");
 const Users = require("../models/UserModel");
 
-const getAllUsers = (req, res) => {
+exports.getAllUsers = (req, res) => {
   Users.find({}, (error, mongoUser) => {
     if (error) {
       console.log(`Error is ${error}`);
@@ -18,4 +18,16 @@ const getAllUsers = (req, res) => {
     }
   });
 };
-module.exports = getAllUsers;
+
+
+exports.getUserByUserId = (req, res) => {
+  console.log("inside getUserByUserId");
+  Users.findById(req.params.userId, (err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(data);
+    }
+  });
+};
+
