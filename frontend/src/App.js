@@ -5,6 +5,7 @@ import Chats from "./Components/Chats/Chats";
 import ChatScreen from "./Components/Chats/ChatScreen";
 // import LandingPage from "./Components/LandingPage/LandingPage";
 import SignUp from "./Components/SignUp/SignUp";
+import UserProfile from "./Components/UserProfile/UserProfile";
 import SwipePage from "./Components/SwipePage";
 import ProfileCard from "./Components/ProfileCard";
 import FindYourTechStar from "./pages/FindYourTechStar";
@@ -36,21 +37,11 @@ function App() {
           />
           <Route
             path="/profile"
-            element={
-              <>
-                {/* <NavigationBar forwardButton="/" /> */}
-                <h1>Put ProfilePage Component here</h1>
-              </>
-            }
+            element={<UserProfile />}
           />
           <Route
             path="/"
-            element={
-              <>
-                {/* <NavigationBar /> */}
-                <h1>Put HomePage Component here</h1>
-              </>
-            }
+            element={<FindYourTechStar />}
           />
           <Route path="/home" element={<FindYourTechStar />} />
 
