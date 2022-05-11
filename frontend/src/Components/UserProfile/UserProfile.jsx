@@ -240,7 +240,7 @@ function UserProfile() {
                       required
                       fullWidth
                       name="age"
-                      label="age"
+                      label="Age"
                       id="age"
                       value={age}
                       autoComplete="age"
@@ -286,7 +286,7 @@ function UserProfile() {
                     <TextField
                       fullWidth
                       name="githubUsername"
-                      label="githubUsername"
+                      label="Github User Name"
                       id="githubUsername"
                       autoComplete="githubUsername"
                       value={githubUsername}
@@ -297,7 +297,7 @@ function UserProfile() {
                     <TextField
                       fullWidth
                       name="leetCodeUsername"
-                      label="leetCodeUsername"
+                      label="Leet Code Username"
                       id="leetCodeUsername"
                       value={leetCodeUsername}
                       autoComplete="leetCodeUsername"
@@ -308,7 +308,7 @@ function UserProfile() {
                     <TextField
                       fullWidth
                       name="yearsOfExperience"
-                      label="yearsOfExperience"
+                      label="Years of Experience"
                       value={yearsOfExperience}
                       id="yearsOfExperience"
                       autoComplete="yearsOfExperience"
@@ -339,7 +339,7 @@ function UserProfile() {
                       required
                       fullWidth
                       name="techStack"
-                      label="techStack"
+                      label="Used Tech Stack"
                       id="techStack"
                       autoComplete="techStack"
                       onChange={handletechStackInputChange}
@@ -370,7 +370,7 @@ function UserProfile() {
                     <TextField
                       fullWidth
                       name="interestedTechStack"
-                      label="interestedTechStack"
+                      label="Interested Tech Stack"
                       id="interestedTechStack"
                       autoComplete="interestedTechStack"
                       onChange={handleInterestedtechStackInputChange}
@@ -384,7 +384,7 @@ function UserProfile() {
                     <TextField
                       fullWidth
                       name="city"
-                      label="city"
+                      label="City"
                       value={city}
                       id="city"
                       autoComplete="city"
@@ -429,7 +429,7 @@ function UserProfile() {
                       required
                       fullWidth
                       name="about"
-                      label="about"
+                      label="About me"
                       id="about"
                       autoComplete="about"
                       multiline
