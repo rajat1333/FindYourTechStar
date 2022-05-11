@@ -83,7 +83,9 @@ function SignUp() {
       console.log("tech Stack is " + techStack);
       settechStackInput("");
     }
-    settechStackInput(e.target.value);
+    else{
+      settechStackInput(e.target.value);
+    }
   };
   const handleimageChange = (e) => {
     setimage(e.target.value);

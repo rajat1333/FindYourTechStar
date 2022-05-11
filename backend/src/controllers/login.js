@@ -12,7 +12,7 @@ const login = (req, res) => {
   console.log('Req Body : ', req.body);
 
   Users.findOne({
-email_id: req.body.emailId,
+    emailId: req.body.emailId,
    password: req.body.password,
 }, (error, mongoUser) => {
     console.log(`users find ${mongoUser}`);
@@ -30,7 +30,6 @@ email_id: req.body.emailId,
       });
       // res.end(JSON.stringify(mongoUser));
        res.status(200).end(`JWT ${token}`);
-      //res.status(200).end(mongoUser);
     } else {
       res.writeHead(200, {
           'Content-Type': 'text/plain',
