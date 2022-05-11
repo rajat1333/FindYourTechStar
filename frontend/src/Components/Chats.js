@@ -1,34 +1,39 @@
-import React from 'react';
+import axios from '../config/axios';
+import React, { useEffect, useState } from 'react';
 import "../CSS/Chats.css";
 import ChatRow from './ChatRow';
 
 const Chats = () => {
-    return (
+    const [matchIds, setMatchIds] = useState([]);
+    const userId = "f961ade5-df68-4ea1-976c-6eb370919bbd";
+
+    useEffect(() => {
+        const fetchIds = async () => {
+            const req = await axios.get("/matches/" + userId);
+            if (req.data && req.data.length !== 0) {
+                const Ids = req.data.map(arr => arr.user1Id === userId ? arr.user2Id : arr.user1Id);
+                setMatchIds([...matchIds, ...Ids]);
+            }
+        }
+        fetchIds();
+    }, []);
+
+    useEffect(() => {
+        console.log("match", matchIds);
+    })
+    return matchIds.length === 0 ? (
+        <div className='noChats'>
+            <h3>No Matches Yet</h3>
+        </div>) : (
         <div className='chats'>
-            <ChatRow
+            {matchIds.map((matchId) => (<ChatRow key={matchId}
                 name="Mark"
                 message="yo whats up!"
                 timestamp="40 seconds ago"
+                matchId={matchId}
             // profilePic="https://i.mydramalist.com/QL1o6_5f.jpg"
-            />
-            <ChatRow
-                name="Sandra"
-                message="how are you"
-                timestamp="45 minutes ago"
-                profilePic="https://i.pinimg.com/originals/6a/74/e4/6a74e4cf4c16d463a73d1ab2ec9351e5.jpg"
-            />
-            <ChatRow
-                name="Nadal"
-                message="busy?"
-                timestamp="1 hour ago"
-                profilePic="https://www.atptour.com/-/media/alias/player-headshot/N409"
-            />
-            <ChatRow
-                name="Kunal"
-                message="where are you"
-                timestamp="30 seconds ago"
-                profilePic="https://upload.wikimedia.org/wikipedia/commons/2/25/Kunal_Nayyar_by_Gage_Skidmore.jpg"
-            />
+            />))
+            }
         </div>
     )
 }
