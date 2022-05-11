@@ -27,6 +27,5 @@ Persona: Developer
 
 
 System Architecture:
-
-![Techstar (1)](https://user-images.githubusercontent.com/91869107/167945933-e8e95083-1400-4699-a42d-60cce695a7f8.png)
+![Techstar (2)](https://user-images.githubusercontent.com/91869107/167946141-5d16082d-b703-4099-8c49-a3e6899829b9.png)
 
