@@ -179,6 +179,21 @@ export default function ProfileCard(props) {
     });
   };
 
+  const clearNotInterested = (e) => {
+    var newnotInterestedIds = [];
+    const userInfo = {
+      _id: JSON.parse(localStorage.getItem("currentUser"))._id,
+      notInterestedIds: newnotInterestedIds,
+    };
+    console.log(" user info is : " + JSON.stringify(userInfo));
+    axios.post("/users/updateUser", userInfo).then((response) => {
+      console.log("Status Code : ", response.status);
+      if (response.data) {
+        navigate("/swipefilter");
+      }
+    });
+  };
+
   //Closing the modal
   const handleClose = () => {
     setMessage("");
@@ -206,6 +221,25 @@ export default function ProfileCard(props) {
                 gutterBottom
               >
                 You have reached the end of users's list.
+              </Typography>
+              <Typography
+                sx={{ fontSize: 15, color: "#616161", mb: "2" }}
+                color="text.secondary"
+                align="center"
+                gutterBottom
+              >
+                Worried that you missed on potential collaborations?{" "}
+              </Typography>
+              <Typography
+                sx={{ fontSize: 15, color: "#616161", mb: "2" }}
+                color="text.secondary"
+                align="center"
+                gutterBottom
+              >
+                Don't worry, revisit profiles you marked Not Interested,{" "}
+                <Link to="/swipefilter" onClick={clearNotInterested}>
+                  Click Here to revisit
+                </Link>
               </Typography>
             </CardContent>
           </Box>
