@@ -20,11 +20,11 @@
     "country": "USA",
     "About": "Looking for python developer for data mining project ",
     "interestedIds": [],
-    "notI nterestedIds": []
+    "notInterestedIds": [1003]
   },
   {
     "user_id": 123123,
-    "firstName": "ASa",
+    "firstName": "Aditya",
     "lastName": "Kumar",
     "email": "aditya@gmail.com",
     "phone": 9293219819,
@@ -38,7 +38,7 @@
     "country": "USA",
     "About": "Looking for python developer for data mining project ",
     "interestedIds": [],
-    "notI nterestedIds": []
+    "notInterestedIds": []
   },
   {
     "user_id": 1003,
@@ -60,8 +60,8 @@
     "city": "San Jose",
     "country": "USA",
     "About": "Looking for python developer for data mining project ",
-    "interestedIds": [],
-    "notI nterestedIds": []
+    "interestedIds": [1001],
+    "notInterestedIds": []
   },
   {
     "user_id": 1004,
@@ -84,6 +84,6 @@
     "country": "USA",
     "About": "Looking for python developer for data mining project ",
     "interestedIds": [],
-    "notI nterestedIds": []
+    "notInterestedIds": []
   }
 ]

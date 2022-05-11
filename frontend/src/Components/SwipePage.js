@@ -12,13 +12,40 @@ function SwipeFilters(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUsers(users.filter((user) => user.email !== "utkarsh@gmail.com"));
-    console.log(users);
+    localStorage.setItem(
+      "currentUser",
+      JSON.stringify(users.filter((user) => user.email === "utkarsh@gmail.com"))
+    );
+    console.log(
+      JSON.parse(
+        localStorage.getItem("currentUser")
+      )[0].notInterestedIds.includes(parseInt("1003"))
+    );
+
+    var filteredUsers = users
+      .filter(
+        (user) =>
+          user.email !==
+          JSON.parse(localStorage.getItem("currentUser"))[0].email
+      )
+      .filter(
+        (user) =>
+          !JSON.parse(
+            localStorage.getItem("currentUser")
+          )[0].interestedIds.includes(parseInt(user.user_id))
+      )
+      .filter(
+        (user) =>
+          !JSON.parse(
+            localStorage.getItem("currentUser")
+          )[0].notInterestedIds.includes(parseInt(user.user_id))
+      );
+
+    localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));
+    console.log(filteredUsers);
   }, []);
 
   const normalSwipe = (e) => {
-    console.log(users);
-    localStorage.setItem("users", JSON.stringify(users));
     localStorage.setItem("swipeType", "normal");
     navigate("/swipe", { users: users });
   };

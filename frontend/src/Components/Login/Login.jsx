@@ -48,7 +48,7 @@ function Login(props) {
         localStorage.setItem("username", emailId);
         //setRedirectVar(<Navigate to= "/home"/>)
         // alert("Item added succussesfully.");
-        // props.closeModal(false);
+        props.closeModal(false);
         navigate("/");
       }
     });
@@ -69,7 +69,9 @@ function Login(props) {
             props.closeModal(false);
           }}
         >
-          <Modal.Title id="contained-modal-title-vcenter">Login Page</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Login Page
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="container">
@@ -81,38 +83,35 @@ function Login(props) {
                     <p>Please enter your Email Id and password</p>
                   </div>
                   <Grid container spacing={2}>
-                      <Grid item xs={12} sm={12}>
+                    <Grid item xs={12} sm={12}>
                       <TextField
-                      autoComplete="emailId"
-                      name="emailId"
-                      required
-                      fullWidth
-                      id="emailId"
-                      label="emailId"
-                      onChange={emailIdChangeHandler}
-                      autoFocus
-                    />
-                      </Grid>
-                    
+                        autoComplete="emailId"
+                        name="emailId"
+                        required
+                        fullWidth
+                        id="emailId"
+                        label="emailId"
+                        onChange={emailIdChangeHandler}
+                        autoFocus
+                      />
+                    </Grid>
+
                     <br />
                     <br />
                     <Grid item xs={12} sm={12}>
-                    <TextField
-                      autoComplete="password"
-                      name="password"
-                      type="password"
-                      required
-                      fullWidth
-                      id="password"
-                      label="password"
-                      onChange={passwordChangeHandler}
-                      autoFocus
-                    />
+                      <TextField
+                        autoComplete="password"
+                        name="password"
+                        type="password"
+                        required
+                        fullWidth
+                        id="password"
+                        label="password"
+                        onChange={passwordChangeHandler}
+                        autoFocus
+                      />
                     </Grid>
-                    
                   </Grid>
-
-
                   {/* <div className="formStyle">
                                 <input onChange = {emailIdChangeHandler} type="email" className="form-control" name="emailId" placeholder="Email Id"/>
                             </div> */}

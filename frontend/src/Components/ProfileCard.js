@@ -6,21 +6,26 @@ import Typography from "@mui/material/Typography";
 import { Button, Grid, Link, List, ListItem } from "@mui/material";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
 
 export default function ProfileCard(props) {
-  //   const { users } = useLocation();
-  //   const { users } = props.location.state;
-  const [users, setUsers] = useState(JSON.parse(localStorage.getItem("users")));
   const [currentUser, setcurrentUser] = useState(
-    JSON.parse(localStorage.getItem("users"))[0]
+    JSON.parse(localStorage.getItem("currentUser"))[0]
   );
+  const [currentProfileCard, setProfileCard] = useState("");
   const [image, setImage] = useState("");
   const [repos, setRepos] = useState([]);
+  const [show, setShow] = useState(props.show);
+  const handleShow = () => setShow(true);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
+    setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
     axios
       .get(
-        "https://api.github.com/users/" + currentUser.githubUsername + "/repos"
+        "https://api.github.com/users/" +
+          JSON.parse(localStorage.getItem("filteredUsers"))[0].githubUsername +
+          "/repos"
       )
       .then((response) => {
         setRepos(response.data);
@@ -28,14 +33,78 @@ export default function ProfileCard(props) {
       });
   }, []);
 
-  function openTab(e) {
-    window.open(e);
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
+      axios
+        .get(
+          "https://api.github.com/users/" +
+            JSON.parse(localStorage.getItem("filteredUsers"))[0]
+              .githubUsername +
+            "/repos"
+        )
+        .then((response) => {
+          setRepos(response.data);
+          console.log(repos);
+        });
+    }
+  }, [currentProfileCard]);
+
+  const notInterested = (e) => {
+    setMessage(
+      "Not Interested in collaborating with " +
+        currentProfileCard.firstName +
+        " " +
+        currentProfileCard.lastName
+    );
+    handleShow();
+    setTimeout(() => {
+      handleClose();
+      deleteItem(0);
+      if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
+        setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
+      } else {
+        setProfileCard("");
+      }
+    }, 700);
+  };
+
+  const interested = (e) => {
+    setMessage(
+      "Interested in collaborating with " +
+        currentProfileCard.firstName +
+        " " +
+        currentProfileCard.lastName
+    );
+    handleShow();
+    setTimeout(() => {
+      handleClose();
+      deleteItem(0);
+      if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
+        setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
+      } else {
+        setProfileCard("");
+      }
+    }, 700);
+  };
+
+  //Closing the modal
+  const handleClose = () => {
+    setMessage("");
+    setShow(false);
+  };
+
+  function deleteItem(index) {
+    const existingEntries = JSON.parse(localStorage.getItem("filteredUsers"));
+    existingEntries.splice(index, 1);
+    localStorage.setItem("filteredUsers", JSON.stringify(existingEntries));
   }
 
-  const card = <React.Fragment></React.Fragment>;
-
-  return currentUser === "" || users === "" || users === null ? (
-    <div></div>
+  return currentUser === "" ||
+    currentProfileCard === "" ||
+    currentProfileCard === null ? (
+    <div>
+      <h1>No more users left</h1>
+    </div>
   ) : (
     <div>
       <Grid container spacing={0}>
@@ -47,9 +116,25 @@ export default function ProfileCard(props) {
                   <Grid container spacing={2}>
                     <Grid item xs={3}>
                       {" "}
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={notInterested}
+                      >
                         Not Interested
                       </Button>
+                      <Modal
+                        show={show}
+                        onHide={handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                      >
+                        <Modal.Body>
+                          <div class={message ? "visible" : "invisible"}>
+                            <div class="alert alert-primary">{message}</div>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
                     </Grid>
                     <Grid item xs={5}>
                       <img
@@ -69,9 +154,25 @@ export default function ProfileCard(props) {
                     </Grid>
                     <Grid item xs={4}>
                       {" "}
-                      <Button variant="contained" color="success">
+                      <Button
+                        variant="contained"
+                        color="success"
+                        onClick={interested}
+                      >
                         Interested
                       </Button>
+                      <Modal
+                        show={show}
+                        onHide={handleClose}
+                        backdrop="static"
+                        keyboard={false}
+                      >
+                        <Modal.Body>
+                          <div class={message ? "visible" : "invisible"}>
+                            <div class="alert alert-primary">{message}</div>
+                          </div>
+                        </Modal.Body>
+                      </Modal>
                     </Grid>
                   </Grid>
 
@@ -81,7 +182,7 @@ export default function ProfileCard(props) {
                     align="left"
                     gutterBottom
                   >
-                    {currentUser.firstName} {currentUser.lastName}{" "}
+                    {currentProfileCard.firstName} {currentProfileCard.lastName}{" "}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 18, color: "#212121", mb: "0" }}
@@ -89,7 +190,7 @@ export default function ProfileCard(props) {
                     align="left"
                     gutterBottom
                   >
-                    {currentUser.age}
+                    {currentProfileCard.age}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 18, color: "#212121", mb: "0" }}
@@ -97,7 +198,7 @@ export default function ProfileCard(props) {
                     align="left"
                     gutterBottom
                   >
-                    {currentUser.city} {currentUser.country}{" "}
+                    {currentProfileCard.city} {currentProfileCard.country}{" "}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 18, color: "#212121", mb: "0" }}
@@ -105,7 +206,7 @@ export default function ProfileCard(props) {
                     align="left"
                     gutterBottom
                   >
-                    About me: {currentUser.About}
+                    About me: {currentProfileCard.About}
                   </Typography>
                   <Typography
                     sx={{ fontSize: 18, color: "#212121", mb: "0" }}
@@ -122,7 +223,7 @@ export default function ProfileCard(props) {
                     align="left"
                     gutterBottom
                   >
-                    {currentUser.yearsOfExperience}
+                    {currentProfileCard.yearsOfExperience}
                   </Typography>
                   {repos === "" ? (
                     <div></div>
@@ -135,7 +236,10 @@ export default function ProfileCard(props) {
                     >
                       Github public repos :{" "}
                       <Link
-                        href="https://github.com/utkarshpant112"
+                        href={
+                          "https://github.com/" +
+                          currentProfileCard.githubUsername
+                        }
                         target="_blank"
                       >
                         {" "}
@@ -152,7 +256,10 @@ export default function ProfileCard(props) {
                     Contribution this past year:
                   </Typography>
                   <img
-                    src="https://ghchart.rshah.org/utkarshpant112"
+                    src={
+                      "https://ghchart.rshah.org/" +
+                      currentProfileCard.githubUsername
+                    }
                     alt="Github contribution chart"
                   />
                   <List sx={{ width: "100%", bgcolor: "background.paper" }}>
