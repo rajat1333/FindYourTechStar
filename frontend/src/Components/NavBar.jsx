@@ -45,15 +45,8 @@ const NavBar = () => {
                     : (<FaBars size={30} style={{ color: '#ffffff' }} />)}
 
             </div> */}
+
         <div>
-          {loggedin && (
-            <Button
-              size="large"
-              startIcon={<AccountCircleIcon />}
-              component={Link}
-              to="/profile"
-            />
-          )}
           {loggedin && (
             <Button
               size="large"
@@ -62,12 +55,21 @@ const NavBar = () => {
               to="/swipefilter"
             />
           )}
+
           {loggedin && (
             <Button
               size="large"
               startIcon={<ForumIcon />}
               component={Link}
               to="/chats"
+            />
+          )}
+          {loggedin && (
+            <Button
+              size="large"
+              startIcon={<AccountCircleIcon />}
+              component={Link}
+              to="/profile"
             />
           )}
           {!loggedin && (
