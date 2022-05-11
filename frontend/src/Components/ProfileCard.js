@@ -23,26 +23,40 @@ export default function ProfileCard(props) {
   const [leetcode, setLeetCode] = useState("");
 
   useEffect(() => {
-    setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
-    axios
-      .get(
-        "https://api.github.com/users/" +
-          JSON.parse(localStorage.getItem("filteredUsers"))[0].githubUsername +
-          "/repos"
-      )
-      .then((response) => {
-        setRepos(response.data);
-        console.log(repos);
-      });
-    axios
-      .get("https://leetcode-stats-api.herokuapp.com/lyustefan")
-      .then((response) => {
-        setLeetCode(response.data);
-        console.log(leetcode);
-      });
+    if (JSON.parse(localStorage.getItem("filteredUsers")).length > 0) {
+      setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
+      axios
+        .get(
+          "https://api.github.com/users/" +
+            JSON.parse(localStorage.getItem("filteredUsers"))[0]
+              .githubUsername +
+            "/repos"
+        )
+        .then((response) => {
+          setRepos(response.data);
+          console.log(repos);
+        });
+      axios
+        .get("https://leetcode-stats-api.herokuapp.com/lyustefan")
+        .then((response) => {
+          setLeetCode(response.data);
+          console.log(leetcode);
+        });
+    }
   }, []);
 
   useEffect(() => {
+    axios
+      .get(
+        `http://localhost:3001/users/` +
+          JSON.parse(localStorage.getItem("currentUser"))._id
+      )
+      .then((res) => {
+        localStorage.setItem("currentUser", JSON.stringify(res.data));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
       axios
         .get(
@@ -65,69 +79,104 @@ export default function ProfileCard(props) {
   }, [currentProfileCard]);
 
   const notInterested = (e) => {
-    setMessage(
-      "Not Interested in collaborating with " +
-        currentProfileCard.firstName +
-        " " +
-        currentProfileCard.lastName
-    );
-    handleShow();
-    setTimeout(() => {
-      handleClose();
-      deleteItem(0);
-      if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
-        setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
-      } else {
-        setProfileCard("");
-      }
-    }, 700);
-  };
-
-  const interested = (e) => {
-    if (
-      JSON.parse(
-        localStorage.getItem("filteredUsers")
-      )[0].interestedIds.includes(
-        JSON.parse(localStorage.getItem("currentUser"))._id
-      )
-    ) {
-      const data = {
-        user1Id: JSON.parse(localStorage.getItem("currentUser"))._id,
-        user2Id: JSON.parse(localStorage.getItem("filteredUsers"))[0]._id,
-        matchTimeStamp: new Date().toLocaleString(),
-      };
-      axios.post("/matches", data).then((response) => {
-        console.log(response.data);
+    var newnotInterestedIds = JSON.parse(
+      localStorage.getItem("currentUser")
+    ).notInterestedIds;
+    newnotInterestedIds.push(currentProfileCard._id);
+    console.log(newnotInterestedIds);
+    const userInfo = {
+      _id: JSON.parse(localStorage.getItem("currentUser"))._id,
+      notInterestedIds: newnotInterestedIds,
+    };
+    console.log(" user info is : " + JSON.stringify(userInfo));
+    axios.post("/users/updateUser", userInfo).then((response) => {
+      console.log("Status Code : ", response.status);
+      if (response.data) {
         setMessage(
-          currentProfileCard.firstName +
+          "Not Interested in collaborating with " +
+            currentProfileCard.firstName +
             " " +
-            currentProfileCard.lastName +
-            " is interested in collaborating with you as well"
+            currentProfileCard.lastName
         );
         handleShow();
         setTimeout(() => {
           handleClose();
-          navigate("/chats");
-        }, 1000);
-      });
-    } else {
-      setMessage(
-        "Interested in collaborating with " +
-          currentProfileCard.firstName +
-          " " +
-          currentProfileCard.lastName
-      );
-      handleShow();
-      setTimeout(() => {
-        handleClose();
-        deleteItem(0);
-        if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
-          setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
+          deleteItem(0);
+          if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
+            setProfileCard(
+              JSON.parse(localStorage.getItem("filteredUsers"))[0]
+            );
+          } else {
+            setProfileCard("");
+          }
+        }, 700);
+      }
+    });
+  };
+
+  const interested = (e) => {
+    var newinterestedIds = JSON.parse(
+      localStorage.getItem("currentUser")
+    ).interestedIds;
+    newinterestedIds.push(currentProfileCard._id);
+    console.log(newinterestedIds);
+    const userInfo = {
+      _id: JSON.parse(localStorage.getItem("currentUser"))._id,
+      interestedIds: newinterestedIds,
+    };
+    axios.post("/users/updateUser", userInfo).then((response) => {
+      console.log("Status Code : ", response.status);
+      if (response.data) {
+        if (
+          JSON.parse(
+            localStorage.getItem("filteredUsers")
+          )[0].interestedIds.includes(
+            JSON.parse(localStorage.getItem("currentUser"))._id
+          )
+        ) {
+          const data = {
+            user1Id: JSON.parse(localStorage.getItem("currentUser"))._id,
+            user2Id: JSON.parse(localStorage.getItem("filteredUsers"))[0]._id,
+            matchTimeStamp: new Date().toLocaleString(),
+          };
+          axios.post("/matches", data).then((response) => {
+            console.log(response.data);
+            setMessage(
+              currentProfileCard.firstName +
+                " " +
+                currentProfileCard.lastName +
+                " is interested in collaborating with you as well"
+            );
+            handleShow();
+            setTimeout(() => {
+              handleClose();
+              navigate("/chats");
+            }, 1000);
+          });
         } else {
-          setProfileCard("");
+          setMessage(
+            "Interested in collaborating with " +
+              currentProfileCard.firstName +
+              " " +
+              currentProfileCard.lastName
+          );
+          handleShow();
+          setTimeout(() => {
+            handleClose();
+            deleteItem(0);
+            if (
+              JSON.parse(localStorage.getItem("filteredUsers")).length !== 0
+            ) {
+              setProfileCard(
+                JSON.parse(localStorage.getItem("filteredUsers"))[0]
+              );
+            } else {
+              setProfileCard("");
+            }
+          }, 1000);
         }
-      }, 1000);
-    }
+      }
+    });
   };
 
   //Closing the modal
@@ -393,7 +442,11 @@ export default function ProfileCard(props) {
                       </Typography>
                       <img
                         alt="LeetCode Stat Card"
-                        src="https://leetcode-stats-six.vercel.app/api?username=utkarshpant112&theme=dark"
+                        src={
+                          "https://leetcode-stats-six.vercel.app/api?username=" +
+                          currentProfileCard.leetCodeUsername +
+                          "&theme=dark"
+                        }
                         width="300px"
                         height="130px"
                       />
