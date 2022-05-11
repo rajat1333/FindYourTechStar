@@ -25,13 +25,13 @@ function SwipeFilters(props) {
             (user) =>
               !JSON.parse(
                 localStorage.getItem("currentUser")
-              ).interestedIds.includes(parseInt(user._id))
+              ).interestedIds.includes(user._id)
           )
           .filter(
             (user) =>
               !JSON.parse(
                 localStorage.getItem("currentUser")
-              ).notInterestedIds.includes(parseInt(user._id))
+              ).notInterestedIds.includes(user._id)
           );
         console.log(filteredUsers);
         localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));

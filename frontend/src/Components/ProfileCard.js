@@ -20,6 +20,7 @@ export default function ProfileCard(props) {
   const [show, setShow] = useState(props.show);
   const handleShow = () => setShow(true);
   const [message, setMessage] = useState("");
+  const [leetcode, setLeetCode] = useState("");
 
   useEffect(() => {
     setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
@@ -32,6 +33,12 @@ export default function ProfileCard(props) {
       .then((response) => {
         setRepos(response.data);
         console.log(repos);
+      });
+    axios
+      .get("https://leetcode-stats-api.herokuapp.com/lyustefan")
+      .then((response) => {
+        setLeetCode(response.data);
+        console.log(leetcode);
       });
   }, []);
 
@@ -47,6 +54,12 @@ export default function ProfileCard(props) {
         .then((response) => {
           setRepos(response.data);
           console.log(repos);
+        });
+      axios
+        .get("https://leetcode-stats-api.herokuapp.com/lyustefan")
+        .then((response) => {
+          setLeetCode(response.data);
+          console.log(leetcode);
         });
     }
   }, [currentProfileCard]);
@@ -133,7 +146,22 @@ export default function ProfileCard(props) {
     currentProfileCard === "" ||
     currentProfileCard === null ? (
     <div>
-      <h1>No more users left</h1>
+      <Grid container spacing={0}>
+        <Grid item xs={11} align="center">
+          <Box sx={{ width: 700, height: 400, border: 1, align: "center" }}>
+            <CardContent>
+              <Typography
+                sx={{ fontSize: 30, color: "#212121", mb: "0" }}
+                color="text.secondary"
+                align="center"
+                gutterBottom
+              >
+                You have reached the end of users's list.
+              </Typography>
+            </CardContent>
+          </Box>
+        </Grid>
+      </Grid>
     </div>
   ) : (
     <div>
@@ -325,12 +353,51 @@ export default function ProfileCard(props) {
                     </Grid>
                   </Grid>
                   <img
+                    sx={{ mb: "2" }}
                     src={
                       "https://ghchart.rshah.org/" +
                       currentProfileCard.githubUsername
                     }
                     alt="Github contribution chart"
                   />
+                  <Grid container spacing={0} sx={{ mb: 1 }}>
+                    <Grid item xs={6}>
+                      <Typography
+                        sx={{ fontSize: 18, color: "#212121", mb: "2" }}
+                        color="text.secondary"
+                        align="center"
+                        gutterBottom
+                      >
+                        LeetCode Stats
+                      </Typography>
+                      <img
+                        alt="LeetCode Stat Card"
+                        src="https://leetcode-stats-six.vercel.app/api?username=utkarshpant112&theme=dark"
+                        width="300px"
+                        height="130px"
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography
+                        sx={{ fontSize: 18, color: "#212121", mb: "2" }}
+                        color="text.secondary"
+                        align="center"
+                        gutterBottom
+                      >
+                        Github Stats
+                      </Typography>
+                      <img
+                        src={
+                          "https://github-readme-stats.vercel.app/api?username=" +
+                          currentProfileCard.githubUsername +
+                          "&theme=onedark"
+                        }
+                        alt="Kunalan's GitHub overview"
+                        width="300px"
+                        height="130px"
+                      ></img>
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </CardContent>
