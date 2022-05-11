@@ -14,14 +14,6 @@ const ChatRow = ({ matchId, matchTime }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-
-        const fetchLastMessage = async () => {
-            const lastMessage = await axios.get("/messages/last/" + userId + "_" + matchId);
-            console.log("lastMessage", lastMessage);
-            if (lastMessage.data && lastMessage.data.length !== 0) {
-                setLastMessageData(lastMessage.data[0]);
-            }
-        };
         const fetchUser = async () => {
             const matchUser = await axios.get("/users/" + matchId);
             console.log("matchUser", matchUser);
@@ -33,13 +25,13 @@ const ChatRow = ({ matchId, matchTime }) => {
     }, [])
 
     useEffect(() => {
-
         const fetchLastMessage = async () => {
             const lastMessage = await axios.get("/messages/last/" + userId + "_" + matchId);
-            console.log("lastMessage", lastMessage);
+            console.log("lastMessage", lastMessage.data.length);
             if (lastMessage.data && lastMessage.data.length !== 0) {
-                setLastMessageData(lastMessage.data);
+                setLastMessageData(lastMessage.data[0]);
             }
+
         };
         fetchLastMessage();
     }, [])
@@ -56,9 +48,9 @@ const ChatRow = ({ matchId, matchTime }) => {
                 alt={matchUserData.firstName} src={matchUserData.image} />
             <div className='chatRow__details'>
                 <h5>{matchUserData.firstName + " " + matchUserData.lastName}</h5>
-                <p>{lastMessageData ? lastMessageData.message : "No Messages yet"}</p>
+                <p>{lastMessageData.message !== undefined ? lastMessageData.message : "No Messages yet"}</p>
             </div>
-            <p className='chatRow__timestamp'>{lastMessageData ? formatDateAgo(lastMessageData.timeStamp) + " ago" : ""}</p>
+            <p className='chatRow__timestamp'>{lastMessageData.timeStamp !== undefined ? formatDateAgo(lastMessageData.timeStamp) + " ago" : ""}</p>
         </div>
         // </Link>
 
