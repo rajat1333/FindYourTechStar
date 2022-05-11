@@ -23,23 +23,5 @@ export default function FavoriteModal(props) {
     }, 700);
   };
 
-  return (
-    <>
-      <Button variant="contained" color="primary" onClick={favoritebuttonclick}>
-        Not Interested
-      </Button>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Body>
-          <div class={message ? "visible" : "invisible"}>
-            <div class="alert alert-primary">{message}</div>
-          </div>
-        </Modal.Body>
-      </Modal>
-    </>
-  );
+  return <></>;
 }

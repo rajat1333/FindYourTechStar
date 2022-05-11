@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-const jwt_decode = require('jwt-decode');
+const jwt_decode = require("jwt-decode");
 
 function Login(props) {
   const [emailId, setEmailId] = useState("");
@@ -43,15 +43,18 @@ function Login(props) {
         setToken(response.data);
         localStorage.setItem("token", response.data);
 
-        var decoded = jwt_decode(response.data.split(' ')[1]);
+        var decoded = jwt_decode(response.data.split(" ")[1]);
         localStorage.setItem("user_id", decoded._id);
         localStorage.setItem("username", emailId);
         // console.log("current user is : " + JSON.stringify(decoded.currentUser))
-        localStorage.setItem("currentUser", JSON.stringify(decoded.currentUser));
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify(decoded.currentUser)
+        );
         //setRedirectVar(<Navigate to= "/home"/>)
         // alert("Item added succussesfully.");
         props.closeModal(false);
-        navigate("/");
+        navigate("/swipefilter");
       }
     });
   };

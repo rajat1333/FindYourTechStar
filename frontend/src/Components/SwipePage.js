@@ -8,46 +8,42 @@ import userJson from "./user.json";
 
 function SwipeFilters(props) {
   const [image, setImage] = useState("");
-  const [users, setUsers] = useState(userJson);
   const navigate = useNavigate();
 
   useEffect(() => {
-    localStorage.setItem(
-      "currentUser",
-      JSON.stringify(users.filter((user) => user.email === "utkarsh@gmail.com"))
-    );
-    console.log(
-      JSON.parse(
-        localStorage.getItem("currentUser")
-      )[0].notInterestedIds.includes(parseInt("1003"))
-    );
-
-    var filteredUsers = users
-      .filter(
-        (user) =>
-          user.email !==
-          JSON.parse(localStorage.getItem("currentUser"))[0].email
-      )
-      .filter(
-        (user) =>
-          !JSON.parse(
-            localStorage.getItem("currentUser")
-          )[0].interestedIds.includes(parseInt(user.user_id))
-      )
-      .filter(
-        (user) =>
-          !JSON.parse(
-            localStorage.getItem("currentUser")
-          )[0].notInterestedIds.includes(parseInt(user.user_id))
-      );
-
-    localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));
-    console.log(filteredUsers);
+    axios
+      .get(`http://localhost:3001/users`)
+      .then((res) => {
+        localStorage.setItem("users", JSON.stringify(res.data));
+        var filteredUsers = JSON.parse(localStorage.getItem("users"))
+          .filter(
+            (user) =>
+              user.emailId !==
+              JSON.parse(localStorage.getItem("currentUser")).emailId
+          )
+          .filter(
+            (user) =>
+              !JSON.parse(
+                localStorage.getItem("currentUser")
+              ).interestedIds.includes(parseInt(user._id))
+          )
+          .filter(
+            (user) =>
+              !JSON.parse(
+                localStorage.getItem("currentUser")
+              ).notInterestedIds.includes(parseInt(user._id))
+          );
+        console.log(filteredUsers);
+        localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const normalSwipe = (e) => {
     localStorage.setItem("swipeType", "normal");
-    navigate("/swipe", { users: users });
+    navigate("/swipe", { users: localStorage.getItem("filteredUsers") });
   };
 
   const card = (e) => (
@@ -57,9 +53,9 @@ function SwipeFilters(props) {
           <div>
             <img
               style={{
-                position: "sticky",
-                height: "275px",
-                width: "275px",
+                position: "center",
+                height: "300px",
+                width: "320px",
               }}
               src={
                 image
@@ -69,47 +65,21 @@ function SwipeFilters(props) {
               className="card-img-top"
               alt="description of image"
             />
-            <Typography
-              sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-              color="text.secondary"
-              align="center"
-              gutterBottom
-            >
-              Basis of project
-            </Typography>
-          </div>
-        ) : e === "location" ? (
-          <div>
-            <img
-              style={{
-                position: "sticky",
-                height: "275px",
-                width: "275px",
-              }}
-              src={
-                image
-                  ? image
-                  : "https://firebasestorage.googleapis.com/v0/b/etsy-lab1.appspot.com/o/Maplocation_-5a492a4e482c52003601ea25.jpg?alt=media&token=f68c67be-fefc-4c51-9dfd-57a28744b4fc"
-              }
-              className="card-img-top"
-              alt="description of image"
-            />
-            <Typography
-              sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-              color="text.secondary"
-              align="center"
-              gutterBottom
-            >
-              Basis of location
-            </Typography>
+            &nbsp;
+            <div align="center">
+              {" "}
+              <Button variant="outlined" color="success" onClick={normalSwipe}>
+                Project specific
+              </Button>
+            </div>
           </div>
         ) : (
           <div>
             <img
               style={{
-                position: "sticky",
-                height: "275px",
-                width: "275px",
+                position: "center",
+                height: "300px",
+                width: "320px",
               }}
               src={
                 image
@@ -119,9 +89,13 @@ function SwipeFilters(props) {
               className="card-img-top"
               alt="description of image"
             />
-            <Button variant="outlined" color="success" onClick={normalSwipe}>
-              Normal
-            </Button>
+            &nbsp;
+            <div align="center">
+              {" "}
+              <Button variant="outlined" color="success" onClick={normalSwipe}>
+                Normal
+              </Button>
+            </div>
           </div>
         )}
       </CardContent>
@@ -131,19 +105,26 @@ function SwipeFilters(props) {
   return (
     <div>
       <Grid container spacing={0}>
-        <Grid item xs={4} align="center">
-          <Box sx={{ width: 300, height: 300 }}>
+        <Grid item xs={12} align="center">
+          <Typography
+            sx={{ fontSize: 30, color: "#212121", mb: "0" }}
+            color="text.secondary"
+            align="center"
+            gutterBottom
+          >
+            Welcome {JSON.parse(localStorage.getItem("currentUser")).firstName}
+          </Typography>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={6} align="right">
+          <Box sx={{ width: 350, height: 350 }}>
             <Card variant="outlined">{card("project")}</Card>
           </Box>
         </Grid>
-        <Grid item xs={4} align="center">
-          <Box sx={{ width: 300, height: 300 }}>
+        <Grid item xs={6} align="left">
+          <Box sx={{ width: 350, height: 350 }}>
             <Card variant="outlined">{card("normal")}</Card>
-          </Box>
-        </Grid>
-        <Grid item xs={4} align="center">
-          <Box sx={{ width: 300, height: 300 }}>
-            <Card variant="outlined">{card("location")}</Card>
           </Box>
         </Grid>
       </Grid>

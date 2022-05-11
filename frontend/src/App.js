@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {<NavBar/>}
+        {<NavBar />}
         <Routes>
           <Route
             path="/chats/:name"
@@ -55,11 +55,14 @@ function App() {
           <Route path="/home" element={<LandingPage />} />
 
           <Route path="/signUp" element={<SignUp />} />
-          
-          <Route path="/swipe" element={<ProfileCard />} />
-          <Route path="/filter" element={<SwipePage />} />
-          <Route exact path="/findyourtechstar" element={<FindYourTechStar/>} />
 
+          <Route path="/swipe" element={<ProfileCard />} />
+          <Route path="/swipefilter" element={<SwipePage />} />
+          <Route
+            exact
+            path="/findyourtechstar"
+            element={<FindYourTechStar />}
+          />
         </Routes>
       </Router>
       {/* NavigationBar*/}
