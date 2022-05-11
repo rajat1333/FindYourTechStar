@@ -364,7 +364,7 @@ export default function ProfileCard(props) {
                     align="left"
                     gutterBottom
                   >
-                    About me: {currentProfileCard.About}
+                    About me: {currentProfileCard.about}
                   </Typography>
                   {localStorage.getItem("swipeType") === "project" ? (
                     <Grid container spacing={0} sx={{ mb: 2 }}>

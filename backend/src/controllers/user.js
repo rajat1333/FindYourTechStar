@@ -56,6 +56,7 @@ exports.updateUser = (req, res) => {
     image: req.body.image,
     city: req.body.city,
     country: req.body.country,
+    about: req.body.about,
   };
   console.log("req fasdfasfsdafas: " + inputUser);
   console.log("req id: " + req.body._id);
