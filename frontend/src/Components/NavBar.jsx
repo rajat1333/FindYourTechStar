@@ -27,7 +27,7 @@ const NavBar = () => {
     const handleLogOut = () => {
         console.log("inside logut function");
         localStorage.clear();
-    window.open("/home", "_self");
+    window.open("/findyourtechstar", "_self");
 };
 
     const closeMenu = () => setClick(false)
@@ -51,7 +51,7 @@ const NavBar = () => {
             {(loggedin &&  <Button size="large" startIcon={<PeopleOutlineIcon />} component = {Link} to="/matches"/>)}
             {(loggedin &&  <Button size="large" startIcon={<ForumIcon />}component = {Link} to="/chats"/>)}
             {(!loggedin && <Button variant="contained" className='login-button' onClick={handleLogin}>Log in</Button>)}
-            {(loggedin && <Button variant="contained" className='login-button' component = {Link} to="/findyourtechstar">Log Out</Button>)}
+            {(loggedin && <Button variant="contained" className='login-button'onClick={handleLogOut}>Log Out</Button>)}
             </div>
         </nav>
         {openModal && <Login closeModal={setOpenModal}  />}
