@@ -417,7 +417,7 @@ export default function ProfileCard(props) {
                       </Typography>
                     </Grid>
                     <Grid item xs={6} align="left">
-                      {currentProfileCard.techStack.map((skill) => (
+                      {currentProfileCard.interestedTechStack.map((skill) => (
                         <SkillList skill={skill}></SkillList>
                       ))}{" "}
                     </Grid>
