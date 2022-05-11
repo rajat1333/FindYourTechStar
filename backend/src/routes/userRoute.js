@@ -3,9 +3,12 @@ const express = require("express");
 
 const router = express.Router();
 
-// Import match Controller
-const getAllUsers = require("../controllers/user");
+// Import user Controller
+const userController = require("../controllers/user");
 
-router.get("/", getAllUsers);
+router.get("/", userController.getAllUsers);
+
+// Get a User using a userId
+router.get('/:userId', userController.getUserByUserId);
 
 module.exports = router;

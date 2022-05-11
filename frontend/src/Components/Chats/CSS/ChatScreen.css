@@ -3,6 +3,27 @@
     align-items: center;
     padding: 20px;
 }
+
+.chatScreen__messageUser{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.chatScreen__messageUser > small{
+    margin-left: 5px;
+    margin-bottom: 16px;
+}
+
+.chatScreen__message > small{
+    margin-left: 5px;
+    margin-bottom: 16px;
+}
+
+/* .chatScreen__messageUser > small{
+    margin-left: auto;
+    object-fit: contain;
+} */
 .chatScreen__text{
     margin-left: 10px;
     background-color: lightgray;

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
-import NavigationBar from "./Components/NavigationBar";
-import Chats from "./Components/Chats";
-import ChatScreen from "./Components/ChatScreen";
+import NavigationBar from "./Components/Chats/NavigationBar";
+import Chats from "./Components/Chats/Chats";
+import ChatScreen from "./Components/Chats/ChatScreen";
 import LandingPage from "./Components/LandingPage/LandingPage";
 import SignUp from "./Components/SignUp/SignUp";
 import SwipePage from "./Components/SwipePage";
