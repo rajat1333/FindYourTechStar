@@ -298,8 +298,6 @@ export default function ProfileCard(props) {
                             gutterBottom
                           >
                             {currentProfileCard.city}
-                            {", "}
-                            {currentProfileCard.country}{" "}
                           </Typography>
                           <Typography
                             sx={{ fontSize: 18, color: "#212121", mb: "0" }}
@@ -307,7 +305,8 @@ export default function ProfileCard(props) {
                             align="left"
                             gutterBottom
                           >
-                            {currentProfileCard.yearsOfExperience}
+                            {currentProfileCard.yearsOfExperience} years of
+                            experience
                           </Typography>
                         </Grid>
                       </Grid>
