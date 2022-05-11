@@ -24,11 +24,13 @@ email_id: req.body.emailId,
       console.log(`User from mongo is  ${JSON.stringify(mongoUser)}`);
 
       // eslint-disable-next-line no-underscore-dangle
-      const payload = { _id: mongoUser._id, username: mongoUser.email_id};
+      const payload = { _id: mongoUser._id, username: mongoUser.email_id, currentUser: mongoUser};
       const token = jwt.sign(payload, secret, {
           expiresIn: 1008000,
       });
-      res.status(200).end(`JWT ${token}`);
+      // res.end(JSON.stringify(mongoUser));
+       res.status(200).end(`JWT ${token}`);
+      //res.status(200).end(mongoUser);
     } else {
       res.writeHead(200, {
           'Content-Type': 'text/plain',

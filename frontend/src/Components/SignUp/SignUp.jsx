@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { Button, Container } from "react-bootstrap";
 import LandingNavBar from "../LandingPage/LandingNavBar";
 import axios from "axios";
+import { TagsInput } from 'react-tag-input-component';
 
 function SignUp() {
   const [userId, setuserId] = useState();
@@ -282,6 +283,7 @@ function SignUp() {
                     onChange={handletechStackInputChange}
                     onKeyDown={onKeyDownHandler}
                   />
+                  <TagsInput name='tags' placeHolder='e.g.(regex c# ruby)' />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
