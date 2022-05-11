@@ -41,6 +41,6 @@ const login = (req, res) => {
       res.end(constants.INVALID_CREDENTIALS);
       console.log('Invalid credentials');
     }
-  );
+});
 };
 module.exports = login;
