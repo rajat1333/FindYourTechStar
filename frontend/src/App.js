@@ -3,7 +3,7 @@ import "./App.css";
 import NavigationBar from "./Components/Chats/NavigationBar";
 import Chats from "./Components/Chats/Chats";
 import ChatScreen from "./Components/Chats/ChatScreen";
-import LandingPage from "./Components/LandingPage/LandingPage";
+// import LandingPage from "./Components/LandingPage/LandingPage";
 import SignUp from "./Components/SignUp/SignUp";
 import SwipePage from "./Components/SwipePage";
 import ProfileCard from "./Components/ProfileCard";
@@ -20,7 +20,7 @@ function App() {
             path="/chatscreen"
             element={
               <>
-                <NavigationBar backButton="/chats" />
+                {/* <NavigationBar backButton="/chats" /> */}
                 <ChatScreen />
               </>
             }
@@ -29,7 +29,7 @@ function App() {
             path="/chats"
             element={
               <>
-                <NavigationBar backButton="/" />
+                {/* <NavigationBar backButton="/" /> */}
                 <Chats />
               </>
             }
@@ -38,7 +38,7 @@ function App() {
             path="/profile"
             element={
               <>
-                <NavigationBar forwardButton="/" />
+                {/* <NavigationBar forwardButton="/" /> */}
                 <h1>Put ProfilePage Component here</h1>
               </>
             }
@@ -47,12 +47,12 @@ function App() {
             path="/"
             element={
               <>
-                <NavigationBar />
+                {/* <NavigationBar /> */}
                 <h1>Put HomePage Component here</h1>
               </>
             }
           />
-          <Route path="/home" element={<LandingPage />} />
+          <Route path="/home" element={<FindYourTechStar />} />
 
           <Route path="/signUp" element={<SignUp />} />
 

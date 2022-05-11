@@ -18,7 +18,7 @@ const Chats = () => {
                         "matchId": arr.user2Id,
                         "matchTime": arr.matchTimeStamp
                     } : {
-                        "matchId": arr.arr.user1Id,
+                        "matchId": arr.user1Id,
                         "matchTime": arr.matchTimeStamp
                     });
                     console.log("ids", Ids);
