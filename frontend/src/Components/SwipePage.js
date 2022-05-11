@@ -24,7 +24,11 @@ function SwipeFilters(props) {
           .then((res) => {
             localStorage.setItem("users", JSON.stringify(res.data));
             var filteredUsers = JSON.parse(localStorage.getItem("users"))
-              .filter((user) => user.emailId !== "utkarsh@gmail.com")
+              .filter(
+                (user) =>
+                  user.emailId !==
+                  JSON.parse(localStorage.getItem("currentUser")).emailId
+              )
               .filter(
                 (user) =>
                   !JSON.parse(
@@ -93,7 +97,7 @@ function SwipeFilters(props) {
             <div align="center">
               {" "}
               <Button variant="outlined" color="success" onClick={projectSwipe}>
-                Project specific
+                Collaborate on your next SJSU project
               </Button>
             </div>
           </div>
@@ -117,7 +121,7 @@ function SwipeFilters(props) {
             <div align="center">
               {" "}
               <Button variant="outlined" color="success" onClick={normalSwipe}>
-                Normal
+                Collaborate with people around the world
               </Button>
             </div>
           </div>

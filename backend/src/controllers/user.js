@@ -20,7 +20,6 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
-
 exports.getUserByUserId = (req, res) => {
   console.log("inside getUserByUserId");
   Users.findById(req.params.userId, (err, data) => {
@@ -41,6 +40,8 @@ exports.updateUser = (req, res) => {
     lastName: req.body.lastName,
     emailId: req.body.emailId,
     // password: req.body.password,
+    notInterestedIds: req.body.notInterestedIds,
+    interestedIds: req.body.interestedIds,
     phoneNo: req.body.phoneNo,
     dateOfBirth: req.body.dateOfBirth,
     age: req.body.age,
@@ -59,20 +60,25 @@ exports.updateUser = (req, res) => {
   console.log("req fasdfasfsdafas: " + inputUser);
   console.log("req id: " + req.body._id);
 
-  Users.findOneAndUpdate( { _id : req.body._id } , inputUser, {new: true} , (err, updatedUser)=>{
-    console.log("inside find and update")
-    console.log("updatedUser " +  updatedUser)
-    console.log("err " + err)
-    if (err) {
-      console.log("Error occoured while updating user is " + err);
-      return;
+  Users.findOneAndUpdate(
+    { _id: req.body._id },
+    inputUser,
+    { new: true },
+    (err, updatedUser) => {
+      console.log("inside find and update");
+      console.log("updatedUser " + updatedUser);
+      console.log("err " + err);
+      if (err) {
+        console.log("Error occoured while updating user is " + err);
+        return;
+      }
+      if (updatedUser) {
+        console.log("updated use is " + updatedUser);
+        res.writeHead(200, {
+          "Content-Type": "application/json",
+        });
+        res.end(JSON.stringify(updatedUser));
+      }
     }
-    if(updatedUser){
-      console.log("updated use is " + updatedUser);
-      res.writeHead(200, {
-        "Content-Type": "application/json",
-      });
-      res.end(JSON.stringify(updatedUser));
-    }
-  });
+  );
 };

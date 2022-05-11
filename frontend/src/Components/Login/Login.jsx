@@ -1,7 +1,7 @@
-import { Container, Grid, TextField } from "@mui/material";
+import { Container, Grid, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
 const jwt_decode = require("jwt-decode");
 
@@ -64,7 +64,7 @@ function Login(props) {
       {redirectVar}
       <Modal
         show={true}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -75,7 +75,7 @@ function Login(props) {
           }}
         >
           <Modal.Title id="contained-modal-title-vcenter">
-            Login Page
+            Welcome to FindYourTechStar
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -83,19 +83,22 @@ function Login(props) {
             <center>
               <div className="login-form">
                 <div className="main-div">
-                  <div className="panel">
-                    <h2>Welcome to FindYourTechStar</h2>
-                    <p>Please enter your Email Id and password</p>
-                  </div>
-                  <Grid container spacing={2}>
+                  <Typography
+                    sx={{ fontSize: 18, color: "#616161", mb: "2" }}
+                    color="text.secondary"
+                    align="left"
+                    gutterBottom
+                  >
+                    Please Login
+                  </Typography>
+                  <Grid container spacing={2} align="left">
                     <Grid item xs={12} sm={12}>
                       <TextField
                         autoComplete="emailId"
                         name="emailId"
-                        required
                         fullWidth
                         id="emailId"
-                        label="emailId"
+                        label="Email Address"
                         onChange={emailIdChangeHandler}
                         autoFocus
                       />
@@ -108,10 +111,9 @@ function Login(props) {
                         autoComplete="password"
                         name="password"
                         type="password"
-                        required
                         fullWidth
                         id="password"
-                        label="password"
+                        label="Password"
                         onChange={passwordChangeHandler}
                         autoFocus
                       />
@@ -130,29 +132,42 @@ function Login(props) {
                     />
                   </div> */}
                   <br></br>
-                  <button onClick={submitLogin} className="btn btn-primary">
-                    Login
-                  </button>{" "}
+                  <Grid container spacing={2} align="left">
+                    <Grid item xs={7}>
+                      <button onClick={submitLogin} className="btn btn-primary">
+                        Login
+                      </button>{" "}
+                    </Grid>
+
+                    <br />
+                    <br />
+                    <Grid item xs={5}>
+                      <Typography
+                        sx={{ fontSize: 18, color: "#616161", mb: "2" }}
+                        color="text.secondary"
+                        align="left"
+                        gutterBottom
+                      >
+                        New here,{" "}
+                        <Link
+                          to="/signUp"
+                          onClick={() => {
+                            props.closeModal(false);
+                          }}
+                        >
+                          Sign Up
+                        </Link>
+                      </Typography>
+                    </Grid>
+                  </Grid>
                   <br></br>
                   <br></br>
-                  <a href="/signUp">
-                    <button className="btn btn-primary">Sign Up</button>
-                  </a>
                   <div className="formStyle">{message}</div>
                 </div>
               </div>
             </center>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button
-            onClick={() => {
-              props.closeModal(false);
-            }}
-          >
-            Close
-          </Button>
-        </Modal.Footer>
       </Modal>
     </Container>
   );
