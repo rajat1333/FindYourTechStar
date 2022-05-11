@@ -6,14 +6,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Container } from "react-bootstrap";
-import LandingNavBar from "../LandingPage/LandingNavBar";
 import axios from "axios";
-import { TagsInput } from 'react-tag-input-component';
+import { FiX } from "react-icons/fi";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage_bucket } from "../../firebase/firebaseConfig";
+import { useNavigate } from "react-router-dom";
+
 
 function SignUp() {
-  const [userId, setuserId] = useState();
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [emailId, setemailId] = useState("");
@@ -24,18 +26,27 @@ function SignUp() {
   const [qualification, setqualification] = useState("");
   const [governmentId, setgovernmentId] = useState("");
   const [githubUsername, setgithubUsername] = useState("");
+  const [leetCodeUsername, setleetCodeUsername] = useState("");
   const [yearsOfExperience, setyearsOfExperience] = useState("");
   const [techStack, settechStack] = useState([]);
-  const [techStackInput, settechStackInput] = useState([]);
+  const [techStackInput, settechStackInput] = useState();
   const [interestedTechStack, setinterestedTechStackStack] = useState([]);
-  const [image, setimage] = useState();
+  const [interestedTechStackInput, setinterestedTechStackStackInput] = useState();
+  const [image, setimage] = useState("https://bootdey.com/img/Content/avatar/avatar7.png");
   const [city, setcity] = useState();
   const [country, setcountry] = useState();
   const [about, setabout] = useState();
-  const [interestedIds, setinterestedIds] = useState([]);
-  const [notInterestedIds, setnotInterestedIds] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [subjectsInput, setSubjectsInput] = useState("");
+  const [isSJSUStudent, setIsSJSUStudent] = useState(false);
 
+  const navigate = useNavigate();
 
+  useEffect(() => {}, [techStackInput, techStack, interestedTechStackInput, interestedTechStack, image, isSJSUStudent]);
+
+  const handleIsSJSUStudent = (e) => {
+    setIsSJSUStudent(e.target.checked);
+  };
   const handleFirstNameChange = (e) => {
     setfirstName(e.target.value);
   };
@@ -48,56 +59,124 @@ function SignUp() {
   const handlepasswordChange = (e) => {
     setpassword(e.target.value);
   };
-  const handlephoneNoChange = (e) => {
-    setphoneNo(e.target.value);
-  };
-  const handledateOfBirthChange = (e) => {
-    setdateOfBirth(e.target.value);
-  };
+  // const handlephoneNoChange = (e) => {
+  //   setphoneNo(e.target.value);
+  // };
+  // const handledateOfBirthChange = (e) => {
+  //   setdateOfBirth(e.target.value);
+  // };
   const handleageChange = (e) => {
     setage(e.target.value);
   };
-  const handlequalificationChange = (e) => {
-    setqualification(e.target.value);
-  };
-  const handlegovernmentIdChange = (e) => {
-    setgovernmentId(e.target.value);
-  };
+  // const handlequalificationChange = (e) => {
+  //   setqualification(e.target.value);
+  // };
+  // const handlegovernmentIdChange = (e) => {
+  //   setgovernmentId(e.target.value);
+  // };
 
   const handlegithubUsernameChange = (e) => {
     setgithubUsername(e.target.value);
   };
+  const handleleetCodeUsernameChange = (e) => {
+    setleetCodeUsername(e.target.value);
+  };
   const handleyearsOfExperienceChange = (e) => {
     setyearsOfExperience(e.target.value);
   };
-  const handletechStackChange = (e) => {
-    settechStack(e.target.value);
-  };
+
   const handletechStackInputChange = (e) => {
     settechStackInput(e.target.value);
   };
-  const onKeyDownHandler = (e) => {
-    const {key} = e;
-    if(key === " "){
-      settechStack(techStack => [...techStack, techStackInput])
+  const handleSubjectInputChange = (e) => {
+    setSubjectsInput(e.target.value);
+  };
+  const handleInterestedtechStackInputChange = (e) => {
+    setinterestedTechStackStackInput(e.target.value);
+  };
+  const onKeyDownHandlerTechStack = (e) => {
+    const { key } = e;
+    if (key === " ") {
+      e.preventDefault();
+      settechStack((techStack) => [...techStack, techStackInput]);
       console.log("tech Stack is " + techStack);
       settechStackInput("");
     }
-    else{
-      settechStackInput(e.target.value);
+  };
+  const onKeyDownHandlerInterestedTechStack = (e) => {
+    const { key } = e;
+    if (key === " ") {
+      e.preventDefault();
+      setinterestedTechStackStack((interestedTechStack) => [
+        ...interestedTechStack,
+        interestedTechStackInput,
+      ]);
+      console.log("tech Stack is " + interestedTechStack);
+      setinterestedTechStackStackInput("");
     }
   };
-  const handleimageChange = (e) => {
-    setimage(e.target.value);
+  const onKeyDownHandlerSubjects = (e) => {
+    const { key } = e;
+    if (key === " ") {
+      e.preventDefault();
+      setSubjects((subjects) => [
+        ...subjects,
+        subjectsInput,
+      ]);
+      setSubjectsInput("");
+    }
   };
+  // const handleimageChange = (e) => {
+  //   setimage(e.target.value);
+  // };
   const handlecityChange = (e) => {
     setcity(e.target.value);
   };
-  const handlecountryChange = (e) => {
-    setcountry(e.target.value);
-  };
+  // const handlecountryChange = (e) => {
+  //   setcountry(e.target.value);
+  // };
   const handleaboutChange = (e) => {
     setabout(e.target.value);
+  };
+  const removeSubjectsHandler = (e) => {
+    e.preventDefault();
+    const removeTag = e.currentTarget.value;
+    const filtered = subjects.filter((tag) => tag != removeTag);
+    //console.log("filtered:", filtered)
+    setSubjects(filtered);
+  };
+  const removeTagHandler = (e) => {
+    e.preventDefault();
+    const removeTag = e.currentTarget.value;
+    const filtered = techStack.filter((tag) => tag != removeTag);
+    //console.log("filtered:", filtered)
+    settechStack(filtered);
+  };
+  const removeIntrestedTagHandler = (e) => {
+    e.preventDefault();
+    const removeTag = e.currentTarget.value;
+    const filtered = interestedTechStack.filter((tag) => tag != removeTag);
+    //console.log("filtered:", filtered)
+    setinterestedTechStackStack(filtered);
+  };
+  
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      // setTempImage(e.target.files[0]);
+      if (e.target.files[0] != null) {
+        console.log(e.target.files[0]);
+        const storageRef = ref(storage_bucket, e.target.files[0].name);
+        // 'file' comes from the Blob or File API
+        uploadBytes(storageRef, e.target.files[0])
+          .then((snapshot) => {
+            return getDownloadURL(snapshot.ref);
+          })
+          .then((downloadURL) => {
+            console.log("Download URL", downloadURL);
+            setimage(downloadURL);
+          });
+      }
+    }
   };
 
   const handleSaveChanges = (e) => {
@@ -106,21 +185,21 @@ function SignUp() {
       lastName: lastName,
       emailId: emailId,
       password: password,
-      phoneNo: phoneNo,
-      dateOfBirth: dateOfBirth,
+      // phoneNo: phoneNo,
+      // dateOfBirth: dateOfBirth,
       age: age,
-      qualification: qualification,
-      governmentId: governmentId,
+      // qualification: qualification,
+      // governmentId: governmentId,
       githubUsername: githubUsername,
+      leetCodeUsername: leetCodeUsername,
       yearsOfExperience: yearsOfExperience,
       techStack: techStack,
       interestedTechStack: interestedTechStack,
+      subjects: subjects,
       image: image,
       city: city,
-      country: country,
+      // country: country,
       about: about,
-      interestedIds: interestedIds,
-      notInterestedIds: notInterestedIds,
     };
     console.log(" user info is : " + JSON.stringify(userInfo));
     // axios.defaults.headers.common['authorization'] = localStorage.getItem('token');
@@ -132,7 +211,10 @@ function SignUp() {
           "The given email id is already registered. Please continue to login or use different emailID"
         );
       }
-      if (response.data === "User Created") alert("User created successfully");
+      if (response.data === "User Created"){
+        alert("User created successfully");
+        navigate("/findyourtechstar");
+      } 
     });
   };
 
@@ -140,11 +222,9 @@ function SignUp() {
     <Container>
       {/* <LandingNavBar /> */}
       <div className="container bootstrap snippets bootdey">
-        <br />
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-
         <hr />
         <div className="row">
           <div className="col-md-9 personal-info">
@@ -164,7 +244,6 @@ function SignUp() {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
-                    required
                     fullWidth
                     id="lastName"
                     label="Last Name"
@@ -200,28 +279,6 @@ function SignUp() {
                   <TextField
                     required
                     fullWidth
-                    name="phoneNo"
-                    label="phoneNo"
-                    id="phoneNo"
-                    autoComplete="phoneNo"
-                    onChange={handlephoneNoChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="dateOfBirth"
-                    label="dateOfBirth"
-                    id="dateOfBirth"
-                    autoComplete="dateOfBirth"
-                    onChange={handledateOfBirthChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
                     name="age"
                     label="age"
                     id="age"
@@ -229,32 +286,43 @@ function SignUp() {
                     onChange={handleageChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <FormControlLabel control={<Checkbox />} label="Are You a SJSU Student" 
+                onChange={handleIsSJSUStudent}/>
+
+                {isSJSUStudent && <Grid item xs={12}>
+                  <div className="pb-2">
+                    {subjects.map((tag) => {
+                      return (
+                        <Button
+                          value={tag}
+                          style={{
+                            color: "#39739D",
+                            backgroundColor: "#E1ECF4",
+                            marginLeft: "8px",
+                            borderColor: "#E1ECF4",
+                          }}
+                          onClick={removeSubjectsHandler}
+                        >
+                          {tag} <FiX value={tag} style={{ strokeWidth: 3 }} />
+                        </Button>
+                      );
+                    })}
+                  </div>
                   <TextField
                     required
                     fullWidth
-                    name="qualification"
-                    label="qualification"
-                    id="qualification"
-                    autoComplete="qualification"
-                    onChange={handlequalificationChange}
+                    name="subjects"
+                    label="Please enter enrolled subjects"
+                    id="subjects"
+                    autoComplete="subjects"
+                    onChange={handleSubjectInputChange}
+                    onKeyDown={onKeyDownHandlerSubjects}
+                    value={subjectsInput}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="governmentId"
-                    label="governmentId"
-                    id="governmentId"
-                    autoComplete="governmentId"
-                    onChange={handlegovernmentIdChange}
-                  />
-                </Grid>
+                </Grid>}
 
                 <Grid item xs={12}>
                   <TextField
-                    required
                     fullWidth
                     name="githubUsername"
                     label="githubUsername"
@@ -265,7 +333,16 @@ function SignUp() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    required
+                    fullWidth
+                    name="leetCodeUsername"
+                    label="leetCodeUsername"
+                    id="leetCodeUsername"
+                    autoComplete="leetCodeUsername"
+                    onChange={handleleetCodeUsernameChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
                     fullWidth
                     name="yearsOfExperience"
                     label="yearsOfExperience"
@@ -274,7 +351,26 @@ function SignUp() {
                     onChange={handleyearsOfExperienceChange}
                   />
                 </Grid>
+
                 <Grid item xs={12}>
+                  <div className="pb-2">
+                    {techStack.map((tag) => {
+                      return (
+                        <Button
+                          value={tag}
+                          style={{
+                            color: "#39739D",
+                            backgroundColor: "#E1ECF4",
+                            marginLeft: "8px",
+                            borderColor: "#E1ECF4",
+                          }}
+                          onClick={removeTagHandler}
+                        >
+                          {tag} <FiX value={tag} style={{ strokeWidth: 3 }} />
+                        </Button>
+                      );
+                    })}
+                  </div>
                   <TextField
                     required
                     fullWidth
@@ -283,13 +379,45 @@ function SignUp() {
                     id="techStack"
                     autoComplete="techStack"
                     onChange={handletechStackInputChange}
-                    onKeyDown={onKeyDownHandler}
+                    onKeyDown={onKeyDownHandlerTechStack}
+                    value={techStackInput}
                   />
-                  <TagsInput name='tags' placeHolder='e.g.(regex c# ruby)' />
                 </Grid>
+
+                <Grid item xs={12}>
+                  <div className="pb-2">
+                    {interestedTechStack.map((tag) => {
+                      return (
+                        <Button
+                          value={tag}
+                          style={{
+                            color: "#39739D",
+                            backgroundColor: "#E1ECF4",
+                            marginLeft: "8px",
+                            borderColor: "#E1ECF4",
+                          }}
+                          onClick={removeIntrestedTagHandler}
+                        >
+                          {tag} <FiX value={tag} style={{ strokeWidth: 3 }} />
+                        </Button>
+                      );
+                    })}
+                  </div>
+                  <TextField
+                    fullWidth
+                    name="interestedTechStack"
+                    label="interestedTechStack"
+                    id="interestedTechStack"
+                    autoComplete="interestedTechStack"
+                    onChange={handleInterestedtechStackInputChange}
+                    onKeyDown={onKeyDownHandlerInterestedTechStack}
+                    value={interestedTechStackInput}
+                  />
+                </Grid>
+
+
                 <Grid item xs={12}>
                   <TextField
-                    required
                     fullWidth
                     name="city"
                     label="city"
@@ -298,70 +426,10 @@ function SignUp() {
                     onChange={handlecityChange}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="country"
-                    label="country"
-                    id="country"
-                    autoComplete="country"
-                    onChange={handlecountryChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="about"
-                    label="about"
-                    id="about"
-                    autoComplete="about"
-                    onChange={handleaboutChange}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox value="allowExtraEmails" color="primary" />
-                    }
-                    label="I want to receive inspiration, marketing promotions and updates via email."
-                  />
-                </Grid>
-              </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Sign Up
-              </Button>
-              <Grid container justifyContent="flex-end">
-                <Grid item>
-                  <Link href="#" variant="body2">
-                    Already have an account? Sign in
-                  </Link>
-                </Grid>
+                
               </Grid>
             </div>
-            <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <div className="form-group">
-                <label htmlFor="Country">Country :</label>
-                <br />
-                <div className="container pt-1">
-                  <select
-                    className="custom-select"
-                    // onChange={handleCountryChange}
-                    // value={country}
-                  >
-                    <option value="USA">USA</option>
-                    <option value="India">India</option>
-                    <option value="UK">UK</option>
-                  </select>
-                </div>
-              </div>
-            </div>
+            <br />
             <button
               className="btn btn-primary"
               type="button"
@@ -371,9 +439,10 @@ function SignUp() {
             </button>
           </div>
           <div className="col-md-3">
-            <div className="text-center">
+            <center>
+            <div className="text-center col-md-9" >
               <img
-                // src={image}
+                src={image}
                 className="avatar img-circle img-thumbnail"
                 alt="avatar"
               />
@@ -381,9 +450,29 @@ function SignUp() {
               <input
                 type="file"
                 className="form-control"
-                // onChange={handleImageChange}
+                onChange={handleImageChange}
               />
             </div>
+            </center>
+            
+            <br />
+            <>Tell Us about yourself : </>
+            <br />
+            <br />
+            <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="about"
+                    label="about"
+                    id="about"
+                    autoComplete="about"
+                    multiline
+                    minRows={3}
+                    maxRows={5}
+                    onChange={handleaboutChange}
+                  />
+                </Grid>
           </div>
         </div>
       </div>
