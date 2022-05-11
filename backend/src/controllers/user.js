@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+/* eslint-disable */
 const constants = require("../../constants.json");
 const Users = require("../models/UserModel");
 
@@ -31,3 +32,47 @@ exports.getUserByUserId = (req, res) => {
   });
 };
 
+exports.updateUser = (req, res) => {
+  console.log("inside post updateUser");
+
+  const inputUser = {
+    // userId: req.body.userId,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    emailId: req.body.emailId,
+    // password: req.body.password,
+    phoneNo: req.body.phoneNo,
+    dateOfBirth: req.body.dateOfBirth,
+    age: req.body.age,
+    qualification: req.body.qualification,
+    governmentId: req.body.governmentId,
+    githubUsername: req.body.githubUsername,
+    leetCodeUsername: req.body.leetCodeUsername,
+    yearsOfExperience: req.body.yearsOfExperience,
+    subjects: req.body.subjects,
+    techStack: req.body.techStack,
+    interestedTechStack: req.body.interestedTechStack,
+    image: req.body.image,
+    city: req.body.city,
+    country: req.body.country,
+  };
+  console.log("req fasdfasfsdafas: " + inputUser);
+  console.log("req id: " + req.body._id);
+
+  Users.findOneAndUpdate( { _id : req.body._id } , inputUser, {new: true} , (err, updatedUser)=>{
+    console.log("inside find and update")
+    console.log("updatedUser " +  updatedUser)
+    console.log("err " + err)
+    if (err) {
+      console.log("Error occoured while updating user is " + err);
+      return;
+    }
+    if(updatedUser){
+      console.log("updated use is " + updatedUser);
+      res.writeHead(200, {
+        "Content-Type": "application/json",
+      });
+      res.end(JSON.stringify(updatedUser));
+    }
+  });
+};
