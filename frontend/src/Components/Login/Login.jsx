@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Button, Modal } from "react-bootstrap";
-const jwt_decode = require('jwt-decode');
+const jwt_decode = require("jwt-decode");
 
 function Login(props) {
   const [emailId, setEmailId] = useState("");
@@ -43,15 +43,18 @@ function Login(props) {
         setToken(response.data);
         localStorage.setItem("token", response.data);
 
-        var decoded = jwt_decode(response.data.split(' ')[1]);
+        var decoded = jwt_decode(response.data.split(" ")[1]);
         localStorage.setItem("user_id", decoded._id);
         localStorage.setItem("username", emailId);
         // console.log("current user is : " + JSON.stringify(decoded.currentUser))
-        localStorage.setItem("currentUser", JSON.stringify(decoded.currentUser));
+        localStorage.setItem(
+          "currentUser",
+          JSON.stringify(decoded.currentUser)
+        );
         //setRedirectVar(<Navigate to= "/home"/>)
         // alert("Item added succussesfully.");
         props.closeModal(false);
-        navigate("/");
+        navigate("/swipefilter");
       }
     });
   };
@@ -71,7 +74,9 @@ function Login(props) {
             props.closeModal(false);
           }}
         >
-          <Modal.Title id="contained-modal-title-vcenter">Login Page</Modal.Title>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Login Page
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="container">
@@ -83,38 +88,35 @@ function Login(props) {
                     <p>Please enter your Email Id and password</p>
                   </div>
                   <Grid container spacing={2}>
-                      <Grid item xs={12} sm={12}>
+                    <Grid item xs={12} sm={12}>
                       <TextField
-                      autoComplete="emailId"
-                      name="emailId"
-                      required
-                      fullWidth
-                      id="emailId"
-                      label="emailId"
-                      onChange={emailIdChangeHandler}
-                      autoFocus
-                    />
-                      </Grid>
-                    
+                        autoComplete="emailId"
+                        name="emailId"
+                        required
+                        fullWidth
+                        id="emailId"
+                        label="emailId"
+                        onChange={emailIdChangeHandler}
+                        autoFocus
+                      />
+                    </Grid>
+
                     <br />
                     <br />
                     <Grid item xs={12} sm={12}>
-                    <TextField
-                      autoComplete="password"
-                      name="password"
-                      type="password"
-                      required
-                      fullWidth
-                      id="password"
-                      label="password"
-                      onChange={passwordChangeHandler}
-                      autoFocus
-                    />
+                      <TextField
+                        autoComplete="password"
+                        name="password"
+                        type="password"
+                        required
+                        fullWidth
+                        id="password"
+                        label="password"
+                        onChange={passwordChangeHandler}
+                        autoFocus
+                      />
                     </Grid>
-                    
                   </Grid>
-
-
                   {/* <div className="formStyle">
                                 <input onChange = {emailIdChangeHandler} type="email" className="form-control" name="emailId" placeholder="Email Id"/>
                             </div> */}

@@ -1,15 +1,15 @@
-const jwt = require('jsonwebtoken');
-const constants = require('../../constants.json');
-const Users = require('../models/UserModel');
-const { auth } = require('../../passport');
+const jwt = require("jsonwebtoken");
+const constants = require("../../constants.json");
+const Users = require("../models/UserModel");
+const { auth } = require("../../passport");
 
-const {secret} = global.gConfig;
+const { secret } = global.gConfig;
 
 auth();
 
 const login = (req, res) => {
-  console.log('Inside Login Post Request');
-  console.log('Req Body : ', req.body);
+  console.log("Inside Login Post Request");
+  console.log("Req Body : ", req.body);
 
   Users.findOne({
     emailId: req.body.emailId,
@@ -19,13 +19,17 @@ const login = (req, res) => {
     console.log(`Error is ${error}`);
     if (error) {
         console.log(`Error is ${error}`);
-    }
-    if (mongoUser) {
-      console.log(`User from mongo is  ${JSON.stringify(mongoUser)}`);
+      }
+      if (mongoUser) {
+        console.log(`User from mongo is  ${JSON.stringify(mongoUser)}`);
 
-      // eslint-disable-next-line no-underscore-dangle
-      const payload = { _id: mongoUser._id, username: mongoUser.email_id, currentUser: mongoUser};
-      const token = jwt.sign(payload, secret, {
+        // eslint-disable-next-line no-underscore-dangle
+        const payload = {
+          _id: mongoUser._id,
+          username: mongoUser.email_id,
+          currentUser: mongoUser,
+        };
+        const token = jwt.sign(payload, secret, {
           expiresIn: 1008000,
       });
       // res.end(JSON.stringify(mongoUser));
@@ -37,6 +41,6 @@ const login = (req, res) => {
       res.end(constants.INVALID_CREDENTIALS);
       console.log('Invalid credentials');
     }
-  });
+  );
 };
 module.exports = login;
