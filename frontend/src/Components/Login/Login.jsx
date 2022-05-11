@@ -38,15 +38,16 @@ function Login(props) {
         // window.open('/login','_self');
       } else {
         console.log("Status Code : ", response.status);
-        console.log("data : ", response.data);
+        // console.log("data : ", response.data);
         setAuthFlag(true);
         setToken(response.data);
-        // localStorage.setItem("token", response.data);
+        localStorage.setItem("token", response.data);
 
-        var decoded = jwt_decode(token.split(' ')[1]);
+        var decoded = jwt_decode(response.data.split(' ')[1]);
         localStorage.setItem("user_id", decoded._id);
-        localStorage.setItem("username", decoded.username);
-        localStorage.setItem("currentUser", decoded.currentUser);
+        localStorage.setItem("username", emailId);
+        // console.log("current user is : " + JSON.stringify(decoded.currentUser))
+        localStorage.setItem("currentUser", JSON.stringify(decoded.currentUser));
         //setRedirectVar(<Navigate to= "/home"/>)
         // alert("Item added succussesfully.");
         props.closeModal(false);
