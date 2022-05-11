@@ -280,7 +280,7 @@ function SignUp() {
                     required
                     fullWidth
                     name="age"
-                    label="age"
+                    label="Age"
                     id="age"
                     autoComplete="age"
                     onChange={handleageChange}
@@ -325,7 +325,7 @@ function SignUp() {
                   <TextField
                     fullWidth
                     name="githubUsername"
-                    label="githubUsername"
+                    label="Github User Name"
                     id="githubUsername"
                     autoComplete="githubUsername"
                     onChange={handlegithubUsernameChange}
@@ -335,7 +335,7 @@ function SignUp() {
                   <TextField
                     fullWidth
                     name="leetCodeUsername"
-                    label="leetCodeUsername"
+                    label="Leet Code Username"
                     id="leetCodeUsername"
                     autoComplete="leetCodeUsername"
                     onChange={handleleetCodeUsernameChange}
@@ -345,7 +345,7 @@ function SignUp() {
                   <TextField
                     fullWidth
                     name="yearsOfExperience"
-                    label="yearsOfExperience"
+                    label="Years of Experience"
                     id="yearsOfExperience"
                     autoComplete="yearsOfExperience"
                     onChange={handleyearsOfExperienceChange}
@@ -375,7 +375,7 @@ function SignUp() {
                     required
                     fullWidth
                     name="techStack"
-                    label="techStack"
+                    label="Used Tech Stack"
                     id="techStack"
                     autoComplete="techStack"
                     onChange={handletechStackInputChange}
@@ -406,7 +406,7 @@ function SignUp() {
                   <TextField
                     fullWidth
                     name="interestedTechStack"
-                    label="interestedTechStack"
+                    label="Interested Tech Stack"
                     id="interestedTechStack"
                     autoComplete="interestedTechStack"
                     onChange={handleInterestedtechStackInputChange}
@@ -420,7 +420,7 @@ function SignUp() {
                   <TextField
                     fullWidth
                     name="city"
-                    label="city"
+                    label="City"
                     id="city"
                     autoComplete="city"
                     onChange={handlecityChange}
@@ -464,7 +464,7 @@ function SignUp() {
                     required
                     fullWidth
                     name="about"
-                    label="about"
+                    label="About Me"
                     id="about"
                     autoComplete="about"
                     multiline
