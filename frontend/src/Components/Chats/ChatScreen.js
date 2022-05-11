@@ -33,21 +33,24 @@ const ChatScreen = () => {
 
     const handleSend = (e) => {
         e.preventDefault();
-        const data = {
-            toId: location.state.matchUserId,
-            fromId: userId,
-            message: input,
-            timeStamp: new Date(),
+        if (input && input !== " ") {
+            const data = {
+                toId: location.state.matchUserId,
+                fromId: userId,
+                message: input,
+                timeStamp: new Date(),
+            }
+            axios.post('/messages', data)
+                .then(response => {
+                    console.log("Message Saved :", response.data);
+                    setMessages([...messages, response.data]);
+                    setInput("");
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
-        axios.post('/messages', data)
-            .then(response => {
-                console.log("Message Saved :", response.data);
-                setMessages([...messages, response.data]);
-                setInput("");
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        setInput("");;
 
     };
     return (
