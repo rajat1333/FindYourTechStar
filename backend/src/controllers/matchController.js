@@ -6,6 +6,7 @@ const Users = require("../models/UserModel");
 
 exports.createMatch = (req, res) => {
   const match = req.body;
+  console.log(match);
   // match.matchTimeStamp = new Date();
   Matches.create(match, (err, data) => {
     if (err) {

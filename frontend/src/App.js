@@ -17,7 +17,7 @@ function App() {
         {<NavBar />}
         <Routes>
           <Route
-            path="/chats/:name"
+            path="/chatscreen"
             element={
               <>
                 <NavigationBar backButton="/chats" />

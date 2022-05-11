@@ -3,12 +3,14 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { Button, Grid, Link, List, ListItem } from "@mui/material";
+import { Button, Chip, Grid, Link, List, ListItem } from "@mui/material";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import SkillList from "./TagList";
 
 export default function ProfileCard(props) {
+  const navigate = useNavigate();
   const [currentUser, setcurrentUser] = useState(
     JSON.parse(localStorage.getItem("currentUser"))[0]
   );
@@ -69,22 +71,50 @@ export default function ProfileCard(props) {
   };
 
   const interested = (e) => {
-    setMessage(
-      "Interested in collaborating with " +
-        currentProfileCard.firstName +
-        " " +
-        currentProfileCard.lastName
-    );
-    handleShow();
-    setTimeout(() => {
-      handleClose();
-      deleteItem(0);
-      if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
-        setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
-      } else {
-        setProfileCard("");
-      }
-    }, 700);
+    if (
+      JSON.parse(
+        localStorage.getItem("filteredUsers")
+      )[0].interestedIds.includes(
+        JSON.parse(localStorage.getItem("currentUser"))._id
+      )
+    ) {
+      const data = {
+        user1Id: JSON.parse(localStorage.getItem("currentUser"))._id,
+        user2Id: JSON.parse(localStorage.getItem("filteredUsers"))[0]._id,
+        matchTimeStamp: new Date().toLocaleString(),
+      };
+      axios.post("/matches", data).then((response) => {
+        console.log(response.data);
+        setMessage(
+          currentProfileCard.firstName +
+            " " +
+            currentProfileCard.lastName +
+            " is interested in collaborating with you as well"
+        );
+        handleShow();
+        setTimeout(() => {
+          handleClose();
+          navigate("/chats");
+        }, 1000);
+      });
+    } else {
+      setMessage(
+        "Interested in collaborating with " +
+          currentProfileCard.firstName +
+          " " +
+          currentProfileCard.lastName
+      );
+      handleShow();
+      setTimeout(() => {
+        handleClose();
+        deleteItem(0);
+        if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
+          setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
+        } else {
+          setProfileCard("");
+        }
+      }, 1000);
+    }
   };
 
   //Closing the modal
@@ -109,152 +139,191 @@ export default function ProfileCard(props) {
     <div>
       <Grid container spacing={0}>
         <Grid item xs={11} align="center">
-          <Box sx={{ width: 700, height: 1000 }}>
+          <Box sx={{ width: 700, border: 1 }}>
             <CardContent>
               <Grid container spacing={0}>
                 <Grid item xs={12}>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} sx={{ mb: 2 }}>
+                    <Grid item xs={8}>
+                      <Grid container spacing={2}>
+                        <Grid item xs={4}>
+                          <img
+                            style={{
+                              position: "sticky",
+                              height: "130px",
+                              width: "130px",
+                            }}
+                            src={
+                              image
+                                ? image
+                                : "https://firebasestorage.googleapis.com/v0/b/etsy-lab1.appspot.com/o/userdefault.png?alt=media&token=d8869205-3aff-41db-b84d-cc57b92d4e50"
+                            }
+                            className="card-img-top"
+                            alt="description of image"
+                          />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Typography
+                            sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                            color="text.secondary"
+                            align="left"
+                            gutterBottom
+                          >
+                            {currentProfileCard.firstName}{" "}
+                            {currentProfileCard.lastName}{" "}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                            color="text.secondary"
+                            align="left"
+                            gutterBottom
+                          >
+                            {currentProfileCard.age}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                            color="text.secondary"
+                            align="left"
+                            gutterBottom
+                          >
+                            {currentProfileCard.city}
+                            {", "}
+                            {currentProfileCard.country}{" "}
+                          </Typography>
+                          <Typography
+                            sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                            color="text.secondary"
+                            align="left"
+                            gutterBottom
+                          >
+                            {currentProfileCard.yearsOfExperience}
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    </Grid>
                     <Grid item xs={3}>
-                      {" "}
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={notInterested}
-                      >
-                        Not Interested
-                      </Button>
-                      <Modal
-                        show={show}
-                        onHide={handleClose}
-                        backdrop="static"
-                        keyboard={false}
-                      >
-                        <Modal.Body>
-                          <div class={message ? "visible" : "invisible"}>
-                            <div class="alert alert-primary">{message}</div>
-                          </div>
-                        </Modal.Body>
-                      </Modal>
-                    </Grid>
-                    <Grid item xs={5}>
-                      <img
-                        style={{
-                          position: "sticky",
-                          height: "130px",
-                          width: "130px",
-                        }}
-                        src={
-                          image
-                            ? image
-                            : "https://firebasestorage.googleapis.com/v0/b/etsy-lab1.appspot.com/o/userdefault.png?alt=media&token=d8869205-3aff-41db-b84d-cc57b92d4e50"
-                        }
-                        className="card-img-top"
-                        alt="description of image"
-                      />
-                    </Grid>
-                    <Grid item xs={4}>
-                      {" "}
-                      <Button
-                        variant="contained"
-                        color="success"
-                        onClick={interested}
-                      >
-                        Interested
-                      </Button>
-                      <Modal
-                        show={show}
-                        onHide={handleClose}
-                        backdrop="static"
-                        keyboard={false}
-                      >
-                        <Modal.Body>
-                          <div class={message ? "visible" : "invisible"}>
-                            <div class="alert alert-primary">{message}</div>
-                          </div>
-                        </Modal.Body>
-                      </Modal>
+                      <div>
+                        <Button
+                          variant="contained"
+                          color="success"
+                          onClick={interested}
+                        >
+                          Interested
+                        </Button>
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          backdrop="static"
+                          keyboard={false}
+                        >
+                          <Modal.Body>
+                            <div class={message ? "visible" : "invisible"}>
+                              <div class="alert alert-primary">{message}</div>
+                            </div>
+                          </Modal.Body>
+                        </Modal>
+                      </div>
+                      &nbsp;
+                      <div>
+                        {" "}
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={notInterested}
+                        >
+                          Not Interested
+                        </Button>
+                        <Modal
+                          show={show}
+                          onHide={handleClose}
+                          backdrop="static"
+                          keyboard={false}
+                        >
+                          <Modal.Body>
+                            <div class={message ? "visible" : "invisible"}>
+                              <div class="alert alert-primary">{message}</div>
+                            </div>
+                          </Modal.Body>
+                        </Modal>
+                      </div>{" "}
                     </Grid>
                   </Grid>
-
                   <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                    color="text.secondary"
-                    align="left"
-                    gutterBottom
-                  >
-                    {currentProfileCard.firstName} {currentProfileCard.lastName}{" "}
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                    color="text.secondary"
-                    align="left"
-                    gutterBottom
-                  >
-                    {currentProfileCard.age}
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                    color="text.secondary"
-                    align="left"
-                    gutterBottom
-                  >
-                    {currentProfileCard.city} {currentProfileCard.country}{" "}
-                  </Typography>
-                  <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                    sx={{ fontSize: 18, color: "#212121", mb: "2" }}
                     color="text.secondary"
                     align="left"
                     gutterBottom
                   >
                     About me: {currentProfileCard.About}
                   </Typography>
-                  <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                    color="text.secondary"
-                    align="left"
-                    gutterBottom
-                  >
-                    Interested in people skilled in:
-                  </Typography>
-
-                  <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                    color="text.secondary"
-                    align="left"
-                    gutterBottom
-                  >
-                    {currentProfileCard.yearsOfExperience}
-                  </Typography>
-                  {repos === "" ? (
-                    <div></div>
-                  ) : (
-                    <Typography
-                      sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                      color="text.secondary"
-                      align="left"
-                      gutterBottom
-                    >
-                      Github public repos :{" "}
-                      <Link
-                        href={
-                          "https://github.com/" +
-                          currentProfileCard.githubUsername
-                        }
-                        target="_blank"
+                  <Grid container spacing={0} sx={{ mb: 2 }}>
+                    <Grid item xs={2.2}>
+                      <Typography
+                        sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                        color="text.secondary"
+                        align="left"
+                        gutterBottom
                       >
-                        {" "}
-                        {repos.length}
-                      </Link>
-                    </Typography>
-                  )}
-                  <Typography
-                    sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                    color="text.secondary"
-                    align="left"
-                    gutterBottom
-                  >
-                    Contribution this past year:
-                  </Typography>
+                        Tech stack:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6} align="left">
+                      {currentProfileCard.techStack.map((skill) => (
+                        <SkillList skill={skill}></SkillList>
+                      ))}{" "}
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={0} sx={{ mb: 1 }}>
+                    <Grid item xs={3.5}>
+                      <Typography
+                        sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                        color="text.secondary"
+                        align="left"
+                        gutterBottom
+                      >
+                        Interested tech stack:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={6} align="left">
+                      {currentProfileCard.techStack.map((skill) => (
+                        <SkillList skill={skill}></SkillList>
+                      ))}{" "}
+                    </Grid>
+                  </Grid>
+                  <Grid container spacing={0} sx={{ mb: 1 }}>
+                    <Grid item xs={9}>
+                      <Typography
+                        sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                        color="text.secondary"
+                        align="left"
+                        gutterBottom
+                      >
+                        Github contribution this past year:
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={3} align="left">
+                      {repos === "" ? (
+                        <div></div>
+                      ) : (
+                        <Typography
+                          sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                          color="text.secondary"
+                          align="left"
+                          gutterBottom
+                        >
+                          <Link
+                            href={
+                              "https://github.com/" +
+                              currentProfileCard.githubUsername
+                            }
+                            target="_blank"
+                          >
+                            View Github Page
+                          </Link>
+                        </Typography>
+                      )}
+                    </Grid>
+                  </Grid>
                   <img
                     src={
                       "https://ghchart.rshah.org/" +
@@ -262,23 +331,6 @@ export default function ProfileCard(props) {
                     }
                     alt="Github contribution chart"
                   />
-                  <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-                    {repos.slice(0, 5).map((repo) => (
-                      <ListItem sx={{ border: 1, borderColor: "#e0e0e0" }}>
-                        <Typography
-                          sx={{ fontSize: 18, color: "#212121", mb: "0" }}
-                          color="text.secondary"
-                          align="left"
-                          gutterBottom
-                        >
-                          <Link href={repo.html_url} target="_blank">
-                            {" "}
-                            {repo.name}
-                          </Link>
-                        </Typography>
-                      </ListItem>
-                    ))}
-                  </List>
                 </Grid>
               </Grid>
             </CardContent>
