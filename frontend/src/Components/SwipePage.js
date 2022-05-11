@@ -12,29 +12,40 @@ function SwipeFilters(props) {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/users`)
+      .get(
+        `http://localhost:3001/users/` +
+          JSON.parse(localStorage.getItem("currentUser"))._id
+      )
       .then((res) => {
-        localStorage.setItem("users", JSON.stringify(res.data));
-        var filteredUsers = JSON.parse(localStorage.getItem("users"))
-          .filter(
-            (user) =>
-              user.emailId !==
-              JSON.parse(localStorage.getItem("currentUser")).emailId
-          )
-          .filter(
-            (user) =>
-              !JSON.parse(
-                localStorage.getItem("currentUser")
-              ).interestedIds.includes(user._id)
-          )
-          .filter(
-            (user) =>
-              !JSON.parse(
-                localStorage.getItem("currentUser")
-              ).notInterestedIds.includes(user._id)
-          );
-        console.log(filteredUsers);
-        localStorage.setItem("filteredUsers", JSON.stringify(filteredUsers));
+        localStorage.setItem("currentUser", JSON.stringify(res.data));
+        console.log(JSON.parse(localStorage.getItem("currentUser")).emailId);
+        axios
+          .get(`http://localhost:3001/users`)
+          .then((res) => {
+            localStorage.setItem("users", JSON.stringify(res.data));
+            var filteredUsers = JSON.parse(localStorage.getItem("users"))
+              .filter((user) => user.emailId !== "utkarsh@gmail.com")
+              .filter(
+                (user) =>
+                  !JSON.parse(
+                    localStorage.getItem("currentUser")
+                  ).interestedIds.includes(user._id)
+              )
+              .filter(
+                (user) =>
+                  !JSON.parse(
+                    localStorage.getItem("currentUser")
+                  ).notInterestedIds.includes(user._id)
+              );
+            console.log(filteredUsers);
+            localStorage.setItem(
+              "filteredUsers",
+              JSON.stringify(filteredUsers)
+            );
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
@@ -43,6 +54,19 @@ function SwipeFilters(props) {
 
   const normalSwipe = (e) => {
     localStorage.setItem("swipeType", "normal");
+    navigate("/swipe", { users: localStorage.getItem("filteredUsers") });
+  };
+
+  const projectSwipe = (e) => {
+    localStorage.setItem("swipeType", "project");
+    localStorage.setItem(
+      "filteredUsers",
+      JSON.stringify(
+        JSON.parse(localStorage.getItem("filteredUsers")).filter(
+          (user) => user.subjects.length > 0
+        )
+      )
+    );
     navigate("/swipe", { users: localStorage.getItem("filteredUsers") });
   };
 
@@ -68,7 +92,7 @@ function SwipeFilters(props) {
             &nbsp;
             <div align="center">
               {" "}
-              <Button variant="outlined" color="success" onClick={normalSwipe}>
+              <Button variant="outlined" color="success" onClick={projectSwipe}>
                 Project specific
               </Button>
             </div>
@@ -116,18 +140,28 @@ function SwipeFilters(props) {
           </Typography>
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={6} align="right">
-          <Box sx={{ width: 350, height: 350 }}>
-            <Card variant="outlined">{card("project")}</Card>
-          </Box>
+      {JSON.parse(localStorage.getItem("currentUser")).subjects.length > 0 ? (
+        <Grid container spacing={2}>
+          <Grid item xs={6} align="right">
+            <Box sx={{ width: 350, height: 350 }}>
+              <Card variant="outlined">{card("project")}</Card>
+            </Box>
+          </Grid>
+          <Grid item xs={6} align="left">
+            <Box sx={{ width: 350, height: 350 }}>
+              <Card variant="outlined">{card("normal")}</Card>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs={6} align="left">
-          <Box sx={{ width: 350, height: 350 }}>
-            <Card variant="outlined">{card("normal")}</Card>
-          </Box>
+      ) : (
+        <Grid container spacing={2}>
+          <Grid item xs={12} align="center">
+            <Box sx={{ width: 350, height: 350 }}>
+              <Card variant="outlined">{card("normal")}</Card>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </div>
   );
 }

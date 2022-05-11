@@ -147,7 +147,7 @@ export default function ProfileCard(props) {
     currentProfileCard === null ? (
     <div>
       <Grid container spacing={0}>
-        <Grid item xs={11} align="center">
+        <Grid item xs={12} align="center">
           <Box sx={{ width: 700, height: 400, border: 1, align: "center" }}>
             <CardContent>
               <Typography
@@ -166,7 +166,7 @@ export default function ProfileCard(props) {
   ) : (
     <div>
       <Grid container spacing={0}>
-        <Grid item xs={11} align="center">
+        <Grid item xs={12} align="center">
           <Box sx={{ width: 700, border: 1 }}>
             <CardContent>
               <Grid container spacing={0}>
@@ -182,8 +182,8 @@ export default function ProfileCard(props) {
                               width: "130px",
                             }}
                             src={
-                              image
-                                ? image
+                              currentProfileCard.image
+                                ? currentProfileCard.image
                                 : "https://firebasestorage.googleapis.com/v0/b/etsy-lab1.appspot.com/o/userdefault.png?alt=media&token=d8869205-3aff-41db-b84d-cc57b92d4e50"
                             }
                             className="card-img-top"
@@ -284,6 +284,27 @@ export default function ProfileCard(props) {
                   >
                     About me: {currentProfileCard.About}
                   </Typography>
+                  {localStorage.getItem("swipeType") === "project" ? (
+                    <Grid container spacing={0} sx={{ mb: 2 }}>
+                      <Grid item xs={2.2}>
+                        <Typography
+                          sx={{ fontSize: 18, color: "#212121", mb: "0" }}
+                          color="text.secondary"
+                          align="left"
+                          gutterBottom
+                        >
+                          Classes:
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} align="left">
+                        {currentProfileCard.subjects.map((skill) => (
+                          <SkillList skill={skill}></SkillList>
+                        ))}{" "}
+                      </Grid>
+                    </Grid>
+                  ) : (
+                    <div></div>
+                  )}
                   <Grid container spacing={0} sx={{ mb: 2 }}>
                     <Grid item xs={2.2}>
                       <Typography
