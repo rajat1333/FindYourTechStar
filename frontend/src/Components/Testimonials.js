@@ -9,6 +9,7 @@ import './Testimonials.css'
 const Testimonials = () => {
     return (
         <div className='testimonials' id='testimonials'>
+            \\hdfnkjnf
             <div className='container'>
                 <h2>Testimonials</h2>
                 <span className='line'></span>
@@ -26,8 +27,7 @@ const Testimonials = () => {
                         <p>SDE-2 At Salesforce</p>
                     </div>
                     <div className='card'>
-                        <img src={user3} alt='user1'/> & 
-                        <img src={user5} alt='user1'/>
+                        <img src={user3} alt='user1'/> 
                         <p>I met Brad Rose on this platform. He was looking for a junior/sophomore to join his team when I matched with him. He has been an amazing mentor to me. Thank you TechStar!</p>
                         <p><span>Alex Prince</span></p>
                         <p>Incoming SWE Intern at IBM   </p>
