@@ -14,4 +14,4 @@ The application can work in two types of domains:
 
 Approach:Webapp using React for frontend, node/java for backend and mongoDB database.
 
-Persona: Students, Teachers, Employers
+Persona: Developer
