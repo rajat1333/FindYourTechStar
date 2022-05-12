@@ -38,6 +38,7 @@ const ChatScreen = () => {
         message: input,
         timeStamp: new Date(),
       };
+      axios.defaults.withCredentials = true;
       axios
         .post("/messages", data)
         .then((response) => {
