@@ -1,5 +1,6 @@
 # Title: FindYourTechStar
 
+## AWS deployment : http://3.12.151.154:3000/findyourtechstar
 **Team Members:**
 1. Sai Kapadekar
 2. Rajat Masurkar
