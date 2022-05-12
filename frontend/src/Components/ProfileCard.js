@@ -25,6 +25,7 @@ export default function ProfileCard(props) {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("filteredUsers")).length > 0) {
       setProfileCard(JSON.parse(localStorage.getItem("filteredUsers"))[0]);
+      axios.defaults.withCredentials = true;
       axios
         .get(
           "https://api.github.com/users/" +
@@ -36,6 +37,7 @@ export default function ProfileCard(props) {
           setRepos(response.data);
           console.log(repos);
         });
+      axios.defaults.withCredentials = true;
       axios
         .get("https://leetcode-stats-api.herokuapp.com/lyustefan")
         .then((response) => {
@@ -46,6 +48,7 @@ export default function ProfileCard(props) {
   }, []);
 
   useEffect(() => {
+    axios.defaults.withCredentials = true;
     axios
       .get(
         `http://localhost:3001/users/` +
@@ -58,6 +61,7 @@ export default function ProfileCard(props) {
         console.log(err);
       });
     if (JSON.parse(localStorage.getItem("filteredUsers")).length !== 0) {
+      axios.defaults.withCredentials = true;
       axios
         .get(
           "https://api.github.com/users/" +
@@ -69,6 +73,7 @@ export default function ProfileCard(props) {
           setRepos(response.data);
           console.log(repos);
         });
+      axios.defaults.withCredentials = true;
       axios
         .get("https://leetcode-stats-api.herokuapp.com/lyustefan")
         .then((response) => {
@@ -89,6 +94,7 @@ export default function ProfileCard(props) {
       notInterestedIds: newnotInterestedIds,
     };
     console.log(" user info is : " + JSON.stringify(userInfo));
+    axios.defaults.withCredentials = true;
     axios.post("/users/updateUser", userInfo).then((response) => {
       console.log("Status Code : ", response.status);
       if (response.data) {

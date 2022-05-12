@@ -11,6 +11,7 @@ function SwipeFilters(props) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    axios.defaults.withCredentials = true;
     axios
       .get(
         `http://localhost:3001/users/` +
@@ -19,6 +20,7 @@ function SwipeFilters(props) {
       .then((res) => {
         localStorage.setItem("currentUser", JSON.stringify(res.data));
         console.log(JSON.parse(localStorage.getItem("currentUser")).emailId);
+        axios.defaults.withCredentials = true;
         axios
           .get(`http://localhost:3001/users`)
           .then((res) => {
