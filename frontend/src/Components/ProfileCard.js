@@ -50,10 +50,7 @@ export default function ProfileCard(props) {
   useEffect(() => {
     axios.defaults.withCredentials = true;
     axios
-      .get(
-        `http://localhost:3001/users/` +
-          JSON.parse(localStorage.getItem("currentUser"))._id
-      )
+      .get(`/users/` + JSON.parse(localStorage.getItem("currentUser"))._id)
       .then((res) => {
         localStorage.setItem("currentUser", JSON.stringify(res.data));
       })

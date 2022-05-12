@@ -13,16 +13,13 @@ function SwipeFilters(props) {
   useEffect(() => {
     axios.defaults.withCredentials = true;
     axios
-      .get(
-        `http://localhost:3001/users/` +
-          JSON.parse(localStorage.getItem("currentUser"))._id
-      )
+      .get(`/users/` + JSON.parse(localStorage.getItem("currentUser"))._id)
       .then((res) => {
         localStorage.setItem("currentUser", JSON.stringify(res.data));
         console.log(JSON.parse(localStorage.getItem("currentUser")).emailId);
         axios.defaults.withCredentials = true;
         axios
-          .get(`http://localhost:3001/users`)
+          .get(`/users`)
           .then((res) => {
             localStorage.setItem("users", JSON.stringify(res.data));
             var filteredUsers = JSON.parse(localStorage.getItem("users"))
